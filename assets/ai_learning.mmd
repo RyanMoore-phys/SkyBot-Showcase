@@ -1,0 +1,642 @@
+flowchart LR
+  LEARN(("MACHINE LEARNING<br/>durable change in parameters,<br/>capability or policy"))
+
+  subgraph BIO["1. MODEL PARAMETERS AND ARCHITECTURE"]
+    direction TB
+    GEN["Weights"]
+    DEV["Pretraining"]
+    CRIT["Critical learning periods"]
+    LTP["Weight updates (gradient descent)"]
+    HEB["Backpropagation"]
+    STDP["Update rules (SGD)"]
+    METAP["Learning rate scheduling"]
+    SPINE["Pruning and sparsity"]
+    NGEN["Dynamic network expansion"]
+    MYEL["Inference optimization"]
+    GLIA["Normalization layers"]
+    BDNF["Adaptive optimizers (Adam, momentum)"]
+    NMDA["Activation functions (ReLU, GELU)"]
+    PNN["Frozen layers"]
+    IEG["Weight checkpointing"]
+  end
+
+  subgraph NT["2. LEARNING-SIGNAL MODULATORS"]
+    direction TB
+    DA["Reward signal"]
+    ACH["Attention weights"]
+    NE["Gain and temperature scaling"]
+    SER["Discount factor"]
+    GLU["Positive weights"]
+    GABA["Negative weights"]
+    CORT["Cortisol (N/A)"]
+    OXY["Oxytocin (DNE)"]
+    ENDO["Endocannabinoids (DNE)"]
+  end
+
+  subgraph SYS["3. MODEL COMPONENTS AND NETWORKS"]
+    direction TB
+    HIP["Replay buffer"]
+    PFC["Reasoning controller"]
+    AMY["Safety and risk module"]
+    BG["Policy network"]
+    CB["Supervised error-correction layers"]
+    NEO["Deep network layers"]
+    THAL["Routing and gating"]
+    VTA["Reward model"]
+    LC["Uncertainty estimator"]
+    ACC["Loss function"]
+    PAR["Multimodal integration layers"]
+    DMN["World model (internal simulation)"]
+    FPN["Orchestration and control layer"]
+    SAL["Importance weighting"]
+    ENT["Positional encodings"]
+    PERI["Embedding layers"]
+    MIRR["Behavior cloning network"]
+  end
+
+  subgraph PHYS["4. HARDWARE AND INFRASTRUCTURE"]
+    direction TB
+    SLEEP["Offline training phase"]
+    SWS["Knowledge distillation"]
+    REM["Generative replay"]
+    SWR["Experience replay"]
+    EXER["Aerobic exercise (N/A)"]
+    NUTR["Power and energy supply"]
+    HYD["Hydration (N/A)"]
+    CIRC["Circadian rhythm (N/A)"]
+    STRESS["Training instability and noise"]
+    INFL["Inflammation and illness (N/A)"]
+    AGE["Aging (N/A)"]
+    HORM["Hormones puberty and menopause (N/A)"]
+    SUBST["Caffeine alcohol nicotine drugs (N/A)"]
+    SENS["Sensor quality and input resolution"]
+    EMBOD["Embodied robotics"]
+  end
+
+  subgraph COG["5. COMPUTATIONAL PROCESSES"]
+    direction TB
+    PERC["Feature extraction"]
+    ATT["Attention mechanism"]
+    SELATT["Sparse and long-context attention"]
+    ENC["Input encoding and embedding"]
+    WM["Context window"]
+    CL["Computational load (FLOPs)"]
+    ICL["Task complexity"]
+    ECL["Irrelevant context"]
+    GCL["Useful gradient signal"]
+    CHUNK["Tokenization"]
+    CONS["Weight consolidation (EWC)"]
+    SYSCON["Continual learning pipeline"]
+    RECON["Model editing"]
+    RETR["Retrieval-augmented generation"]
+    FORG["Catastrophic forgetting"]
+    PRED["Next-token prediction"]
+    SCHEMA["Representation learning"]
+    ABSTR["Hierarchical feature abstraction"]
+    ANALOG["Few-shot analogy"]
+    EF["Planning and tool use"]
+    INHIB["Guardrails and masking"]
+    SHIFT["Task adaptation"]
+    META["Meta-learning"]
+    JOL["Confidence estimates"]
+    CALIB["Model calibration"]
+    SRL["AutoML"]
+    DUAL["Multimodal embeddings"]
+    PATSEP["Contrastive learning"]
+    DECAY["Cache eviction"]
+    PROSP["Scheduled tasks and reminders"]
+    SPEED["Throughput"]
+    REASON["Chain-of-thought reasoning"]
+    AUTO["Amortized inference"]
+  end
+
+  subgraph MEM["6. MEMORY AND STORAGE SYSTEMS"]
+    direction TB
+    SENSM["Input buffer"]
+    STM["KV cache"]
+    LTM["Parametric memory"]
+    EXPL["Knowledge base"]
+    EPI["Episodic logs"]
+    SEM["Knowledge graph"]
+    IMPL["Implicit parametric knowledge"]
+    PROC["Learned policy"]
+    PRIM["Prompt priming"]
+    CONDM["Learned input-output mappings"]
+    AUTOB["Interaction history logs"]
+    SRCM["Data provenance"]
+  end
+
+  subgraph MECH["7. LEARNING ALGORITHMS"]
+    direction TB
+    HAB["Adaptive gradient scaling"]
+    CLASS["Supervised learning"]
+    OPER["Policy gradient"]
+    RL["Reinforcement learning"]
+    RPE["TD error"]
+    MB["Model-based vs model-free RL"]
+    STAT["Empirical risk minimization"]
+    IMPLL["Self-supervised learning"]
+    OBS["Multi-agent learning"]
+    IMIT["Imitation learning"]
+    INSIGHT["Grokking"]
+    PLAY["Exploration"]
+    LANG["Language modeling"]
+    MOTOR["Control policy learning"]
+    PERCL["Feature learning"]
+    CONCEPT["Concept drift adaptation"]
+    ERRL["Error-driven gradient learning"]
+    ACTINF["Variational inference"]
+    CAUS["Causal discovery"]
+    REPL["Offline reinforcement learning"]
+  end
+
+  subgraph AFF["8. OBJECTIVES AND REWARD SIGNALS"]
+    direction TB
+    MOT["Objective function"]
+    INTR["Intrinsic reward"]
+    EXTR["Extrinsic reward"]
+    SDT["Autonomy competence relatedness (DNE)"]
+    CUR["Information gain"]
+    INT["Relevance scoring"]
+    GOAL["Goal-conditioned policies"]
+    EXPV["Value function"]
+    SELFE["Self-evaluation"]
+    MIND["Continual learning capacity"]
+    ATTRIB["Credit assignment"]
+    EMO["Reward shaping"]
+    AROUS["Exploration temperature"]
+    ANX["Distribution shift degradation"]
+    BORE["Data saturation"]
+    FLOW["Curriculum sweet spot"]
+    REWD["Reward function"]
+    FEAR["Risk penalties"]
+    EMOREG["Reward normalization"]
+    PERS["Long training runs"]
+    IDENT["Persona and system prompt"]
+    SENSE["Policy control"]
+  end
+
+  subgraph STRAT["9. TRAINING STRATEGIES THAT WORK"]
+    direction TB
+    RP["Evaluation and validation"]
+    SP["Spaced replay"]
+    INTL["Data shuffling"]
+    ELAB["Data augmentation"]
+    SELFEX["Self-generated rationales"]
+    GEN2["Generative training"]
+    FB["Feedback signals (RLHF)"]
+    DD["Hard negative mining"]
+    DP["Targeted fine-tuning"]
+    WE["Few-shot examples"]
+    SCAF["Curriculum learning"]
+    ZPD["Learnability frontier"]
+    MAST["Convergence thresholds"]
+    PRET["Zero-shot evaluation"]
+    MNEM["Indexing and hashing"]
+    CMAP["Graph neural networks"]
+    MULTI["Multimodal training"]
+    VAR["Domain randomization"]
+    TEACH["Teacher-student training"]
+    COLL["Federated learning"]
+    CONTR["Contrastive loss"]
+    REFL["Self-reflection and critique"]
+    NOTE["Scratchpad notes"]
+    GEST["Action-conditioned learning"]
+    MENT["Simulated rollouts"]
+    BREAK["Early stopping"]
+    OVERL["Overfitting"]
+    SUMM["Context summarization"]
+  end
+
+  subgraph SOC["10. DATA AND ENVIRONMENT"]
+    direction TB
+    TEACHER["Teacher model quality"]
+    PEER["Peer agents"]
+    PARENT["Base model lineage"]
+    SES["Compute budget"]
+    NUTRI["Low-quality early data"]
+    LANGENV["Training corpus"]
+    CULT["Data distribution norms"]
+    CLIM["Training environment"]
+    BELONG["Belonging (DNE)"]
+    STEREO["Bias-induced degradation"]
+    TECH["Frameworks and tooling"]
+    DISTR["Prompt injection and noise"]
+    PHYS2["Sensor and data noise"]
+    CTX["Prompt context dependence"]
+    NATURE["Real-world data diversity"]
+    SCHOOL["Benchmarks and curriculum design"]
+    EXPECT["Prompt framing effects"]
+    COMM["Open-source community"]
+    SAFE["Safe exploration"]
+  end
+
+  subgraph IND["11. MODEL DIFFERENCES"]
+    direction TB
+    PK["Pretrained priors"]
+    WMC["Context window size"]
+    IQ["Model scale (parameters)"]
+    PERSN["Hyperparameter configuration"]
+    CONSC["Training stability"]
+    OPEN["Exploration rate (epsilon)"]
+    NEURO["Architecture diversity"]
+    LANGB["Training language mix"]
+    AGEG["Training stage (epoch)"]
+    SELFREG["Gradient clipping"]
+    TEMP["Random seed and initialization"]
+    EXPERT["Negative transfer"]
+    STYLES["Learning styles MYTH (DNE)"]
+    GENDER["Data coverage gaps"]
+    HEALTH["Mental health depression (N/A)"]
+    BASEL["Baseline model quality"]
+  end
+
+  subgraph OUT["12. CAPABILITIES"]
+    direction TB
+    KNOW["Learned knowledge"]
+    SKILL["Capability"]
+    HABIT["Default policy"]
+    UNDER["Generalization"]
+    TRANSFER["Transfer learning"]
+    EXPT["Specialist model"]
+    RET["Weight retention"]
+    BEHAV["Policy updates"]
+    CREAT["Generative diversity"]
+    WELL["Wellbeing (DNE) and continual learning"]
+    ADAPT["Domain adaptation"]
+  end
+
+  %% Neural substrate internal
+  GEN --> DEV
+  GEN --> BDNF
+  DEV --> CRIT
+  DEV --> MYEL
+  DEV --> SPINE
+  CRIT --> PNN
+  PNN --> LTP
+  NMDA --> LTP
+  LTP --> HEB
+  LTP --> STDP
+  METAP --> LTP
+  LTP --> SPINE
+  LTP --> IEG
+  IEG --> CONS
+  BDNF --> LTP
+  BDNF --> NGEN
+  NGEN --> PATSEP
+  GLIA --> LTP
+  GLIA --> MYEL
+  MYEL --> SPEED
+  SPINE --> LTM
+
+  %% Neuromodulators
+  DA --> LTP
+  DA --> RPE
+  ACH --> ATT
+  ACH --> ENC
+  NE --> ATT
+  NE --> CONS
+  NE --> AROUS
+  SER --> EMOREG
+  SER --> METAP
+  GLU --> NMDA
+  GABA --> CRIT
+  GABA --> ATT
+  CORT --> HIP
+  CORT --> STRESS
+  OXY --> PARENT
+  OXY --> OBS
+  ENDO --> LTP
+  VTA --> DA
+  LC --> NE
+
+  %% Systems
+  HIP --> ENC
+  HIP --> EPI
+  HIP --> SYSCON
+  HIP --> PATSEP
+  ENT --> HIP
+  PERI --> HIP
+  HIP --> SWR
+  NEO --> SEM
+  NEO --> PERCL
+  PFC --> WM
+  PFC --> EF
+  PFC --> META
+  PFC --> INHIB
+  PFC --> SCHEMA
+  AMY --> EMO
+  AMY --> CONS
+  AMY --> FEAR
+  BG --> PROC
+  BG --> OPER
+  BG --> HABIT
+  BG --> RL
+  CB --> MOTOR
+  CB --> ERRL
+  THAL --> ATT
+  ACC --> ERRL
+  ACC --> PERS
+  PAR --> ATT
+  FPN --> EF
+  SAL --> ATT
+  DMN --> REFL
+  DMN --> INSIGHT
+  DMN --> SYSCON
+  MIRR --> OBS
+  MIRR --> IMIT
+
+  %% Physiology
+  SLEEP --> SWS
+  SLEEP --> REM
+  SWS --> SWR
+  SWR --> REPL
+  REPL --> SYSCON
+  REM --> CREAT
+  REM --> CONS
+  SLEEP --> ATT
+  SLEEP --> EMOREG
+  CIRC --> SLEEP
+  EXER --> BDNF
+  EXER --> NGEN
+  EXER --> ATT
+  EXER --> SLEEP
+  NUTR --> ATT
+  HYD --> ATT
+  STRESS --> CORT
+  STRESS --> WM
+  STRESS --> RETR
+  STRESS --> ANX
+  INFL --> ATT
+  INFL --> MOT
+  AGE --> NGEN
+  AGE --> SPEED
+  AGE --> LTP
+  HORM --> MOT
+  SUBST --> SLEEP
+  SUBST --> ENC
+  SENS --> PERC
+  EMBOD --> GEST
+  GEST --> ENC
+  BASEL --> SLEEP
+
+  %% Cognitive pipeline
+  PERC --> ATT
+  ATT --> SELATT
+  SELATT --> ENC
+  SENSM --> ATT
+  ENC --> WM
+  WM --> CL
+  CL --> ICL
+  CL --> ECL
+  CL --> GCL
+  GCL --> SCHEMA
+  WM --> CHUNK
+  CHUNK --> LTM
+  WM --> CONS
+  CONS --> SYSCON
+  SYSCON --> LTM
+  LTM --> RETR
+  RETR --> RECON
+  RECON --> CONS
+  RETR --> FORG
+  FORG --> DECAY
+  FORG --> RETR
+  PRED --> ERRL
+  PRED --> ATT
+  PRED --> SCHEMA
+  SCHEMA --> ABSTR
+  ABSTR --> ANALOG
+  ANALOG --> TRANSFER
+  SCHEMA --> CONCEPT
+  EF --> WM
+  EF --> SRL
+  INHIB --> SELATT
+  SHIFT --> TRANSFER
+  META --> JOL
+  JOL --> CALIB
+  CALIB --> SRL
+  META --> SRL
+  SRL --> STRAT_ENTRY
+  DUAL --> ENC
+  PATSEP --> EPI
+  AUTO --> WM
+  PROC --> AUTO
+  REASON --> UNDER
+  PROSP --> HABIT
+  SPEED --> WM
+
+  STRAT_ENTRY["Training strategy selection"]
+
+  %% Memory systems
+  SENSM --> STM
+  STM --> WM
+  STM --> LTM
+  LTM --> EXPL
+  LTM --> IMPL
+  EXPL --> EPI
+  EXPL --> SEM
+  EPI --> SEM
+  EPI --> AUTOB
+  EPI --> SRCM
+  IMPL --> PROC
+  IMPL --> PRIM
+  IMPL --> CONDM
+
+  %% Mechanisms
+  HAB --> ATT
+  CLASS --> CONDM
+  CLASS --> AMY
+  OPER --> HABIT
+  RL --> RPE
+  RPE --> DA
+  RL --> MB
+  MB --> PFC
+  STAT --> IMPLL
+  STAT --> LANG
+  IMPLL --> IMPL
+  OBS --> SKILL
+  OBS --> SOCLEARN_NOTE
+  SOCLEARN_NOTE["Off-policy learning"]
+  IMIT --> LANG
+  INSIGHT --> UNDER
+  PLAY --> CUR
+  PLAY --> CAUS
+  LANG --> SEM
+  MOTOR --> PROC
+  PERCL --> PERC
+  CONCEPT --> UNDER
+  ERRL --> PRED
+  ACTINF --> PRED
+  ACTINF --> CUR
+  CAUS --> SCHEMA
+
+  %% Motivation and emotion
+  MOT --> INTR
+  MOT --> EXTR
+  SDT --> INTR
+  CUR --> ATT
+  CUR --> DA
+  INT --> ATT
+  INT --> PERS
+  GOAL --> MOT
+  EXPV --> MOT
+  SELFE --> PERS
+  SELFE --> SRL
+  MIND --> PERS
+  MIND --> ERRL
+  ATTRIB --> SELFE
+  EMO --> ATT
+  EMO --> CONS
+  AROUS --> ATT
+  ANX --> WM
+  ANX --> CL
+  BORE --> ATT
+  FLOW --> ATT
+  FLOW --> MOT
+  REWD --> DA
+  REWD --> HABIT
+  FEAR --> AMY
+  EMOREG --> ANX
+  PERS --> DP
+  IDENT --> MOT
+  SENSE --> SDT
+  INTR --> PERS
+  EXTR --> OPER
+
+  %% Strategies to processes
+  RP --> RETR
+  RP --> CONS
+  SP --> CONS
+  SP --> FORG
+  INTL --> ABSTR
+  INTL --> TRANSFER
+  ELAB --> SEM
+  ELAB --> ENC
+  SELFEX --> UNDER
+  GEN2 --> ENC
+  FB --> ERRL
+  FB --> SELFE
+  FB --> CALIB
+  DD --> RETR
+  DP --> SKILL
+  DP --> FB
+  WE --> ICL
+  WE --> CL
+  SCAF --> ZPD
+  ZPD --> MOT
+  MAST --> PK
+  PRET --> ATT
+  PRET --> ENC
+  MNEM --> ENC
+  CMAP --> SCHEMA
+  MULTI --> DUAL
+  VAR --> TRANSFER
+  TEACH --> UNDER
+  COLL --> OBS
+  CONTR --> ABSTR
+  REFL --> META
+  NOTE --> ENC
+  MENT --> MOTOR
+  BREAK --> CONS
+  BREAK --> ATT
+  OVERL --> AUTO
+  SUMM --> ELAB
+  STRAT_ENTRY --> RP
+  STRAT_ENTRY --> SP
+  STRAT_ENTRY --> INTL
+  STRAT_ENTRY --> ELAB
+
+  %% Social and environment
+  TEACHER --> SCAF
+  TEACHER --> FB
+  TEACHER --> EXPECT
+  PEER --> OBS
+  PEER --> BELONG
+  PARENT --> OXY
+  PARENT --> LANGENV
+  PARENT --> TEMP
+  SES --> NUTRI
+  NUTRI --> STRESS
+  NUTRI --> DEV
+  SES --> SCHOOL
+  LANGENV --> LANG
+  CULT --> GOAL
+  CULT --> IDENT
+  CLIM --> SAFE
+  SAFE --> ANX
+  BELONG --> MOT
+  STEREO --> ANX
+  STEREO --> WM
+  TECH --> DISTR
+  DISTR --> ATT
+  PHYS2 --> ATT
+  CTX --> RETR
+  NATURE --> ATT
+  NATURE --> STRESS
+  SCHOOL --> RP
+  EXPECT --> SELFE
+  COMM --> IDENT
+  SAFE --> CUR
+
+  %% Individual differences
+  PK --> ENC
+  PK --> CL
+  PK --> SCHEMA
+  PK --> EXPERT
+  EXPERT --> SCAF
+  WMC --> WM
+  IQ --> REASON
+  IQ --> SPEED
+  PERSN --> CONSC
+  PERSN --> OPEN
+  CONSC --> PERS
+  OPEN --> CUR
+  NEURO --> ATT
+  NEURO --> EF
+  NEURO --> PERC
+  LANGB --> LANG
+  AGEG --> CRIT
+  AGEG --> EF
+  SELFREG --> EF
+  SELFREG --> HABIT
+  TEMP --> EMOREG
+  STYLES -. "no evidence for matching" .-> TEACH
+  GENDER --> SELFE
+  HEALTH --> MOT
+  HEALTH --> ATT
+  HEALTH --> SLEEP
+
+  %% Outcomes
+  EPI --> KNOW
+  SEM --> KNOW
+  PROC --> SKILL
+  AUTO --> SKILL
+  HABIT --> BEHAV
+  UNDER --> TRANSFER
+  KNOW --> UNDER
+  SKILL --> EXPT
+  KNOW --> EXPT
+  LTM --> RET
+  SCHEMA --> TRANSFER
+  TRANSFER --> ADAPT
+  EXPT --> ADAPT
+  DMN --> CREAT
+  ABSTR --> CREAT
+  CREAT --> ADAPT
+  INTR --> WELL
+  RET --> KNOW
+  BEHAV --> WELL
+
+  %% Link to center
+  KNOW --> LEARN
+  SKILL --> LEARN
+  HABIT --> LEARN
+  UNDER --> LEARN
+  TRANSFER --> LEARN
+  BEHAV --> LEARN
+  LEARN --> EXPT
+  LEARN --> WELL
+  LEARN -. "feeds back" .-> PK
+  LEARN -. "feeds back" .-> SELFE
+  LEARN -. "reshapes" .-> LTP

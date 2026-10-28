@@ -1,0 +1,4693 @@
+{
+ "generated_by": "tools/map_to_registry.py (GENERATED - do not edit)",
+ "source": "assets/ai_learning.mmd",
+ "source_sha256": "37e33886ca81d3c47cd4e70e1fe80d81db53e1a598ac856592286717166ae830",
+ "counts": {
+  "lines": 346,
+  "compared": 326,
+  "excluded": 20,
+  "nodes": 220
+ },
+ "nodes": {
+  "LEARN": {
+   "id": "LEARN",
+   "label": "MACHINE LEARNING<br/>durable change in parameters,<br/>capability or policy",
+   "group": "",
+   "na": false,
+   "dne": false
+  },
+  "GEN": {
+   "id": "GEN",
+   "label": "Weights",
+   "group": "1. MODEL PARAMETERS AND ARCHITECTURE",
+   "na": false,
+   "dne": false
+  },
+  "DEV": {
+   "id": "DEV",
+   "label": "Pretraining",
+   "group": "1. MODEL PARAMETERS AND ARCHITECTURE",
+   "na": false,
+   "dne": false
+  },
+  "CRIT": {
+   "id": "CRIT",
+   "label": "Critical learning periods",
+   "group": "1. MODEL PARAMETERS AND ARCHITECTURE",
+   "na": false,
+   "dne": false
+  },
+  "LTP": {
+   "id": "LTP",
+   "label": "Weight updates (gradient descent)",
+   "group": "1. MODEL PARAMETERS AND ARCHITECTURE",
+   "na": false,
+   "dne": false
+  },
+  "HEB": {
+   "id": "HEB",
+   "label": "Backpropagation",
+   "group": "1. MODEL PARAMETERS AND ARCHITECTURE",
+   "na": false,
+   "dne": false
+  },
+  "STDP": {
+   "id": "STDP",
+   "label": "Update rules (SGD)",
+   "group": "1. MODEL PARAMETERS AND ARCHITECTURE",
+   "na": false,
+   "dne": false
+  },
+  "METAP": {
+   "id": "METAP",
+   "label": "Learning rate scheduling",
+   "group": "1. MODEL PARAMETERS AND ARCHITECTURE",
+   "na": false,
+   "dne": false
+  },
+  "SPINE": {
+   "id": "SPINE",
+   "label": "Pruning and sparsity",
+   "group": "1. MODEL PARAMETERS AND ARCHITECTURE",
+   "na": false,
+   "dne": false
+  },
+  "NGEN": {
+   "id": "NGEN",
+   "label": "Dynamic network expansion",
+   "group": "1. MODEL PARAMETERS AND ARCHITECTURE",
+   "na": false,
+   "dne": false
+  },
+  "MYEL": {
+   "id": "MYEL",
+   "label": "Inference optimization",
+   "group": "1. MODEL PARAMETERS AND ARCHITECTURE",
+   "na": false,
+   "dne": false
+  },
+  "GLIA": {
+   "id": "GLIA",
+   "label": "Normalization layers",
+   "group": "1. MODEL PARAMETERS AND ARCHITECTURE",
+   "na": false,
+   "dne": false
+  },
+  "BDNF": {
+   "id": "BDNF",
+   "label": "Adaptive optimizers (Adam, momentum)",
+   "group": "1. MODEL PARAMETERS AND ARCHITECTURE",
+   "na": false,
+   "dne": false
+  },
+  "NMDA": {
+   "id": "NMDA",
+   "label": "Activation functions (ReLU, GELU)",
+   "group": "1. MODEL PARAMETERS AND ARCHITECTURE",
+   "na": false,
+   "dne": false
+  },
+  "PNN": {
+   "id": "PNN",
+   "label": "Frozen layers",
+   "group": "1. MODEL PARAMETERS AND ARCHITECTURE",
+   "na": false,
+   "dne": false
+  },
+  "IEG": {
+   "id": "IEG",
+   "label": "Weight checkpointing",
+   "group": "1. MODEL PARAMETERS AND ARCHITECTURE",
+   "na": false,
+   "dne": false
+  },
+  "DA": {
+   "id": "DA",
+   "label": "Reward signal",
+   "group": "2. LEARNING-SIGNAL MODULATORS",
+   "na": false,
+   "dne": false
+  },
+  "ACH": {
+   "id": "ACH",
+   "label": "Attention weights",
+   "group": "2. LEARNING-SIGNAL MODULATORS",
+   "na": false,
+   "dne": false
+  },
+  "NE": {
+   "id": "NE",
+   "label": "Gain and temperature scaling",
+   "group": "2. LEARNING-SIGNAL MODULATORS",
+   "na": false,
+   "dne": false
+  },
+  "SER": {
+   "id": "SER",
+   "label": "Discount factor",
+   "group": "2. LEARNING-SIGNAL MODULATORS",
+   "na": false,
+   "dne": false
+  },
+  "GLU": {
+   "id": "GLU",
+   "label": "Positive weights",
+   "group": "2. LEARNING-SIGNAL MODULATORS",
+   "na": false,
+   "dne": false
+  },
+  "GABA": {
+   "id": "GABA",
+   "label": "Negative weights",
+   "group": "2. LEARNING-SIGNAL MODULATORS",
+   "na": false,
+   "dne": false
+  },
+  "CORT": {
+   "id": "CORT",
+   "label": "Cortisol (N/A)",
+   "group": "2. LEARNING-SIGNAL MODULATORS",
+   "na": true,
+   "dne": false
+  },
+  "OXY": {
+   "id": "OXY",
+   "label": "Oxytocin (DNE)",
+   "group": "2. LEARNING-SIGNAL MODULATORS",
+   "na": false,
+   "dne": true
+  },
+  "ENDO": {
+   "id": "ENDO",
+   "label": "Endocannabinoids (DNE)",
+   "group": "2. LEARNING-SIGNAL MODULATORS",
+   "na": false,
+   "dne": true
+  },
+  "HIP": {
+   "id": "HIP",
+   "label": "Replay buffer",
+   "group": "3. MODEL COMPONENTS AND NETWORKS",
+   "na": false,
+   "dne": false
+  },
+  "PFC": {
+   "id": "PFC",
+   "label": "Reasoning controller",
+   "group": "3. MODEL COMPONENTS AND NETWORKS",
+   "na": false,
+   "dne": false
+  },
+  "AMY": {
+   "id": "AMY",
+   "label": "Safety and risk module",
+   "group": "3. MODEL COMPONENTS AND NETWORKS",
+   "na": false,
+   "dne": false
+  },
+  "BG": {
+   "id": "BG",
+   "label": "Policy network",
+   "group": "3. MODEL COMPONENTS AND NETWORKS",
+   "na": false,
+   "dne": false
+  },
+  "CB": {
+   "id": "CB",
+   "label": "Supervised error-correction layers",
+   "group": "3. MODEL COMPONENTS AND NETWORKS",
+   "na": false,
+   "dne": false
+  },
+  "NEO": {
+   "id": "NEO",
+   "label": "Deep network layers",
+   "group": "3. MODEL COMPONENTS AND NETWORKS",
+   "na": false,
+   "dne": false
+  },
+  "THAL": {
+   "id": "THAL",
+   "label": "Routing and gating",
+   "group": "3. MODEL COMPONENTS AND NETWORKS",
+   "na": false,
+   "dne": false
+  },
+  "VTA": {
+   "id": "VTA",
+   "label": "Reward model",
+   "group": "3. MODEL COMPONENTS AND NETWORKS",
+   "na": false,
+   "dne": false
+  },
+  "LC": {
+   "id": "LC",
+   "label": "Uncertainty estimator",
+   "group": "3. MODEL COMPONENTS AND NETWORKS",
+   "na": false,
+   "dne": false
+  },
+  "ACC": {
+   "id": "ACC",
+   "label": "Loss function",
+   "group": "3. MODEL COMPONENTS AND NETWORKS",
+   "na": false,
+   "dne": false
+  },
+  "PAR": {
+   "id": "PAR",
+   "label": "Multimodal integration layers",
+   "group": "3. MODEL COMPONENTS AND NETWORKS",
+   "na": false,
+   "dne": false
+  },
+  "DMN": {
+   "id": "DMN",
+   "label": "World model (internal simulation)",
+   "group": "3. MODEL COMPONENTS AND NETWORKS",
+   "na": false,
+   "dne": false
+  },
+  "FPN": {
+   "id": "FPN",
+   "label": "Orchestration and control layer",
+   "group": "3. MODEL COMPONENTS AND NETWORKS",
+   "na": false,
+   "dne": false
+  },
+  "SAL": {
+   "id": "SAL",
+   "label": "Importance weighting",
+   "group": "3. MODEL COMPONENTS AND NETWORKS",
+   "na": false,
+   "dne": false
+  },
+  "ENT": {
+   "id": "ENT",
+   "label": "Positional encodings",
+   "group": "3. MODEL COMPONENTS AND NETWORKS",
+   "na": false,
+   "dne": false
+  },
+  "PERI": {
+   "id": "PERI",
+   "label": "Embedding layers",
+   "group": "3. MODEL COMPONENTS AND NETWORKS",
+   "na": false,
+   "dne": false
+  },
+  "MIRR": {
+   "id": "MIRR",
+   "label": "Behavior cloning network",
+   "group": "3. MODEL COMPONENTS AND NETWORKS",
+   "na": false,
+   "dne": false
+  },
+  "SLEEP": {
+   "id": "SLEEP",
+   "label": "Offline training phase",
+   "group": "4. HARDWARE AND INFRASTRUCTURE",
+   "na": false,
+   "dne": false
+  },
+  "SWS": {
+   "id": "SWS",
+   "label": "Knowledge distillation",
+   "group": "4. HARDWARE AND INFRASTRUCTURE",
+   "na": false,
+   "dne": false
+  },
+  "REM": {
+   "id": "REM",
+   "label": "Generative replay",
+   "group": "4. HARDWARE AND INFRASTRUCTURE",
+   "na": false,
+   "dne": false
+  },
+  "SWR": {
+   "id": "SWR",
+   "label": "Experience replay",
+   "group": "4. HARDWARE AND INFRASTRUCTURE",
+   "na": false,
+   "dne": false
+  },
+  "EXER": {
+   "id": "EXER",
+   "label": "Aerobic exercise (N/A)",
+   "group": "4. HARDWARE AND INFRASTRUCTURE",
+   "na": true,
+   "dne": false
+  },
+  "NUTR": {
+   "id": "NUTR",
+   "label": "Power and energy supply",
+   "group": "4. HARDWARE AND INFRASTRUCTURE",
+   "na": false,
+   "dne": false
+  },
+  "HYD": {
+   "id": "HYD",
+   "label": "Hydration (N/A)",
+   "group": "4. HARDWARE AND INFRASTRUCTURE",
+   "na": true,
+   "dne": false
+  },
+  "CIRC": {
+   "id": "CIRC",
+   "label": "Circadian rhythm (N/A)",
+   "group": "4. HARDWARE AND INFRASTRUCTURE",
+   "na": true,
+   "dne": false
+  },
+  "STRESS": {
+   "id": "STRESS",
+   "label": "Training instability and noise",
+   "group": "4. HARDWARE AND INFRASTRUCTURE",
+   "na": false,
+   "dne": false
+  },
+  "INFL": {
+   "id": "INFL",
+   "label": "Inflammation and illness (N/A)",
+   "group": "4. HARDWARE AND INFRASTRUCTURE",
+   "na": true,
+   "dne": false
+  },
+  "AGE": {
+   "id": "AGE",
+   "label": "Aging (N/A)",
+   "group": "4. HARDWARE AND INFRASTRUCTURE",
+   "na": true,
+   "dne": false
+  },
+  "HORM": {
+   "id": "HORM",
+   "label": "Hormones puberty and menopause (N/A)",
+   "group": "4. HARDWARE AND INFRASTRUCTURE",
+   "na": true,
+   "dne": false
+  },
+  "SUBST": {
+   "id": "SUBST",
+   "label": "Caffeine alcohol nicotine drugs (N/A)",
+   "group": "4. HARDWARE AND INFRASTRUCTURE",
+   "na": true,
+   "dne": false
+  },
+  "SENS": {
+   "id": "SENS",
+   "label": "Sensor quality and input resolution",
+   "group": "4. HARDWARE AND INFRASTRUCTURE",
+   "na": false,
+   "dne": false
+  },
+  "EMBOD": {
+   "id": "EMBOD",
+   "label": "Embodied robotics",
+   "group": "4. HARDWARE AND INFRASTRUCTURE",
+   "na": false,
+   "dne": false
+  },
+  "PERC": {
+   "id": "PERC",
+   "label": "Feature extraction",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "ATT": {
+   "id": "ATT",
+   "label": "Attention mechanism",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "SELATT": {
+   "id": "SELATT",
+   "label": "Sparse and long-context attention",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "ENC": {
+   "id": "ENC",
+   "label": "Input encoding and embedding",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "WM": {
+   "id": "WM",
+   "label": "Context window",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "CL": {
+   "id": "CL",
+   "label": "Computational load (FLOPs)",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "ICL": {
+   "id": "ICL",
+   "label": "Task complexity",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "ECL": {
+   "id": "ECL",
+   "label": "Irrelevant context",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "GCL": {
+   "id": "GCL",
+   "label": "Useful gradient signal",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "CHUNK": {
+   "id": "CHUNK",
+   "label": "Tokenization",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "CONS": {
+   "id": "CONS",
+   "label": "Weight consolidation (EWC)",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "SYSCON": {
+   "id": "SYSCON",
+   "label": "Continual learning pipeline",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "RECON": {
+   "id": "RECON",
+   "label": "Model editing",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "RETR": {
+   "id": "RETR",
+   "label": "Retrieval-augmented generation",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "FORG": {
+   "id": "FORG",
+   "label": "Catastrophic forgetting",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "PRED": {
+   "id": "PRED",
+   "label": "Next-token prediction",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "SCHEMA": {
+   "id": "SCHEMA",
+   "label": "Representation learning",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "ABSTR": {
+   "id": "ABSTR",
+   "label": "Hierarchical feature abstraction",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "ANALOG": {
+   "id": "ANALOG",
+   "label": "Few-shot analogy",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "EF": {
+   "id": "EF",
+   "label": "Planning and tool use",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "INHIB": {
+   "id": "INHIB",
+   "label": "Guardrails and masking",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "SHIFT": {
+   "id": "SHIFT",
+   "label": "Task adaptation",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "META": {
+   "id": "META",
+   "label": "Meta-learning",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "JOL": {
+   "id": "JOL",
+   "label": "Confidence estimates",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "CALIB": {
+   "id": "CALIB",
+   "label": "Model calibration",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "SRL": {
+   "id": "SRL",
+   "label": "AutoML",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "DUAL": {
+   "id": "DUAL",
+   "label": "Multimodal embeddings",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "PATSEP": {
+   "id": "PATSEP",
+   "label": "Contrastive learning",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "DECAY": {
+   "id": "DECAY",
+   "label": "Cache eviction",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "PROSP": {
+   "id": "PROSP",
+   "label": "Scheduled tasks and reminders",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "SPEED": {
+   "id": "SPEED",
+   "label": "Throughput",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "REASON": {
+   "id": "REASON",
+   "label": "Chain-of-thought reasoning",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "AUTO": {
+   "id": "AUTO",
+   "label": "Amortized inference",
+   "group": "5. COMPUTATIONAL PROCESSES",
+   "na": false,
+   "dne": false
+  },
+  "SENSM": {
+   "id": "SENSM",
+   "label": "Input buffer",
+   "group": "6. MEMORY AND STORAGE SYSTEMS",
+   "na": false,
+   "dne": false
+  },
+  "STM": {
+   "id": "STM",
+   "label": "KV cache",
+   "group": "6. MEMORY AND STORAGE SYSTEMS",
+   "na": false,
+   "dne": false
+  },
+  "LTM": {
+   "id": "LTM",
+   "label": "Parametric memory",
+   "group": "6. MEMORY AND STORAGE SYSTEMS",
+   "na": false,
+   "dne": false
+  },
+  "EXPL": {
+   "id": "EXPL",
+   "label": "Knowledge base",
+   "group": "6. MEMORY AND STORAGE SYSTEMS",
+   "na": false,
+   "dne": false
+  },
+  "EPI": {
+   "id": "EPI",
+   "label": "Episodic logs",
+   "group": "6. MEMORY AND STORAGE SYSTEMS",
+   "na": false,
+   "dne": false
+  },
+  "SEM": {
+   "id": "SEM",
+   "label": "Knowledge graph",
+   "group": "6. MEMORY AND STORAGE SYSTEMS",
+   "na": false,
+   "dne": false
+  },
+  "IMPL": {
+   "id": "IMPL",
+   "label": "Implicit parametric knowledge",
+   "group": "6. MEMORY AND STORAGE SYSTEMS",
+   "na": false,
+   "dne": false
+  },
+  "PROC": {
+   "id": "PROC",
+   "label": "Learned policy",
+   "group": "6. MEMORY AND STORAGE SYSTEMS",
+   "na": false,
+   "dne": false
+  },
+  "PRIM": {
+   "id": "PRIM",
+   "label": "Prompt priming",
+   "group": "6. MEMORY AND STORAGE SYSTEMS",
+   "na": false,
+   "dne": false
+  },
+  "CONDM": {
+   "id": "CONDM",
+   "label": "Learned input-output mappings",
+   "group": "6. MEMORY AND STORAGE SYSTEMS",
+   "na": false,
+   "dne": false
+  },
+  "AUTOB": {
+   "id": "AUTOB",
+   "label": "Interaction history logs",
+   "group": "6. MEMORY AND STORAGE SYSTEMS",
+   "na": false,
+   "dne": false
+  },
+  "SRCM": {
+   "id": "SRCM",
+   "label": "Data provenance",
+   "group": "6. MEMORY AND STORAGE SYSTEMS",
+   "na": false,
+   "dne": false
+  },
+  "HAB": {
+   "id": "HAB",
+   "label": "Adaptive gradient scaling",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "CLASS": {
+   "id": "CLASS",
+   "label": "Supervised learning",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "OPER": {
+   "id": "OPER",
+   "label": "Policy gradient",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "RL": {
+   "id": "RL",
+   "label": "Reinforcement learning",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "RPE": {
+   "id": "RPE",
+   "label": "TD error",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "MB": {
+   "id": "MB",
+   "label": "Model-based vs model-free RL",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "STAT": {
+   "id": "STAT",
+   "label": "Empirical risk minimization",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "IMPLL": {
+   "id": "IMPLL",
+   "label": "Self-supervised learning",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "OBS": {
+   "id": "OBS",
+   "label": "Multi-agent learning",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "IMIT": {
+   "id": "IMIT",
+   "label": "Imitation learning",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "INSIGHT": {
+   "id": "INSIGHT",
+   "label": "Grokking",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "PLAY": {
+   "id": "PLAY",
+   "label": "Exploration",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "LANG": {
+   "id": "LANG",
+   "label": "Language modeling",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "MOTOR": {
+   "id": "MOTOR",
+   "label": "Control policy learning",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "PERCL": {
+   "id": "PERCL",
+   "label": "Feature learning",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "CONCEPT": {
+   "id": "CONCEPT",
+   "label": "Concept drift adaptation",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "ERRL": {
+   "id": "ERRL",
+   "label": "Error-driven gradient learning",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "ACTINF": {
+   "id": "ACTINF",
+   "label": "Variational inference",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "CAUS": {
+   "id": "CAUS",
+   "label": "Causal discovery",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "REPL": {
+   "id": "REPL",
+   "label": "Offline reinforcement learning",
+   "group": "7. LEARNING ALGORITHMS",
+   "na": false,
+   "dne": false
+  },
+  "MOT": {
+   "id": "MOT",
+   "label": "Objective function",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "INTR": {
+   "id": "INTR",
+   "label": "Intrinsic reward",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "EXTR": {
+   "id": "EXTR",
+   "label": "Extrinsic reward",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "SDT": {
+   "id": "SDT",
+   "label": "Autonomy competence relatedness (DNE)",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": true
+  },
+  "CUR": {
+   "id": "CUR",
+   "label": "Information gain",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "INT": {
+   "id": "INT",
+   "label": "Relevance scoring",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "GOAL": {
+   "id": "GOAL",
+   "label": "Goal-conditioned policies",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "EXPV": {
+   "id": "EXPV",
+   "label": "Value function",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "SELFE": {
+   "id": "SELFE",
+   "label": "Self-evaluation",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "MIND": {
+   "id": "MIND",
+   "label": "Continual learning capacity",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "ATTRIB": {
+   "id": "ATTRIB",
+   "label": "Credit assignment",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "EMO": {
+   "id": "EMO",
+   "label": "Reward shaping",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "AROUS": {
+   "id": "AROUS",
+   "label": "Exploration temperature",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "ANX": {
+   "id": "ANX",
+   "label": "Distribution shift degradation",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "BORE": {
+   "id": "BORE",
+   "label": "Data saturation",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "FLOW": {
+   "id": "FLOW",
+   "label": "Curriculum sweet spot",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "REWD": {
+   "id": "REWD",
+   "label": "Reward function",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "FEAR": {
+   "id": "FEAR",
+   "label": "Risk penalties",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "EMOREG": {
+   "id": "EMOREG",
+   "label": "Reward normalization",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "PERS": {
+   "id": "PERS",
+   "label": "Long training runs",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "IDENT": {
+   "id": "IDENT",
+   "label": "Persona and system prompt",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "SENSE": {
+   "id": "SENSE",
+   "label": "Policy control",
+   "group": "8. OBJECTIVES AND REWARD SIGNALS",
+   "na": false,
+   "dne": false
+  },
+  "RP": {
+   "id": "RP",
+   "label": "Evaluation and validation",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "SP": {
+   "id": "SP",
+   "label": "Spaced replay",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "INTL": {
+   "id": "INTL",
+   "label": "Data shuffling",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "ELAB": {
+   "id": "ELAB",
+   "label": "Data augmentation",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "SELFEX": {
+   "id": "SELFEX",
+   "label": "Self-generated rationales",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "GEN2": {
+   "id": "GEN2",
+   "label": "Generative training",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "FB": {
+   "id": "FB",
+   "label": "Feedback signals (RLHF)",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "DD": {
+   "id": "DD",
+   "label": "Hard negative mining",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "DP": {
+   "id": "DP",
+   "label": "Targeted fine-tuning",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "WE": {
+   "id": "WE",
+   "label": "Few-shot examples",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "SCAF": {
+   "id": "SCAF",
+   "label": "Curriculum learning",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "ZPD": {
+   "id": "ZPD",
+   "label": "Learnability frontier",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "MAST": {
+   "id": "MAST",
+   "label": "Convergence thresholds",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "PRET": {
+   "id": "PRET",
+   "label": "Zero-shot evaluation",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "MNEM": {
+   "id": "MNEM",
+   "label": "Indexing and hashing",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "CMAP": {
+   "id": "CMAP",
+   "label": "Graph neural networks",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "MULTI": {
+   "id": "MULTI",
+   "label": "Multimodal training",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "VAR": {
+   "id": "VAR",
+   "label": "Domain randomization",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "TEACH": {
+   "id": "TEACH",
+   "label": "Teacher-student training",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "COLL": {
+   "id": "COLL",
+   "label": "Federated learning",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "CONTR": {
+   "id": "CONTR",
+   "label": "Contrastive loss",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "REFL": {
+   "id": "REFL",
+   "label": "Self-reflection and critique",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "NOTE": {
+   "id": "NOTE",
+   "label": "Scratchpad notes",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "GEST": {
+   "id": "GEST",
+   "label": "Action-conditioned learning",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "MENT": {
+   "id": "MENT",
+   "label": "Simulated rollouts",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "BREAK": {
+   "id": "BREAK",
+   "label": "Early stopping",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "OVERL": {
+   "id": "OVERL",
+   "label": "Overfitting",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "SUMM": {
+   "id": "SUMM",
+   "label": "Context summarization",
+   "group": "9. TRAINING STRATEGIES THAT WORK",
+   "na": false,
+   "dne": false
+  },
+  "TEACHER": {
+   "id": "TEACHER",
+   "label": "Teacher model quality",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "PEER": {
+   "id": "PEER",
+   "label": "Peer agents",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "PARENT": {
+   "id": "PARENT",
+   "label": "Base model lineage",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "SES": {
+   "id": "SES",
+   "label": "Compute budget",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "NUTRI": {
+   "id": "NUTRI",
+   "label": "Low-quality early data",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "LANGENV": {
+   "id": "LANGENV",
+   "label": "Training corpus",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "CULT": {
+   "id": "CULT",
+   "label": "Data distribution norms",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "CLIM": {
+   "id": "CLIM",
+   "label": "Training environment",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "BELONG": {
+   "id": "BELONG",
+   "label": "Belonging (DNE)",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": true
+  },
+  "STEREO": {
+   "id": "STEREO",
+   "label": "Bias-induced degradation",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "TECH": {
+   "id": "TECH",
+   "label": "Frameworks and tooling",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "DISTR": {
+   "id": "DISTR",
+   "label": "Prompt injection and noise",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "PHYS2": {
+   "id": "PHYS2",
+   "label": "Sensor and data noise",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "CTX": {
+   "id": "CTX",
+   "label": "Prompt context dependence",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "NATURE": {
+   "id": "NATURE",
+   "label": "Real-world data diversity",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "SCHOOL": {
+   "id": "SCHOOL",
+   "label": "Benchmarks and curriculum design",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "EXPECT": {
+   "id": "EXPECT",
+   "label": "Prompt framing effects",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "COMM": {
+   "id": "COMM",
+   "label": "Open-source community",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "SAFE": {
+   "id": "SAFE",
+   "label": "Safe exploration",
+   "group": "10. DATA AND ENVIRONMENT",
+   "na": false,
+   "dne": false
+  },
+  "PK": {
+   "id": "PK",
+   "label": "Pretrained priors",
+   "group": "11. MODEL DIFFERENCES",
+   "na": false,
+   "dne": false
+  },
+  "WMC": {
+   "id": "WMC",
+   "label": "Context window size",
+   "group": "11. MODEL DIFFERENCES",
+   "na": false,
+   "dne": false
+  },
+  "IQ": {
+   "id": "IQ",
+   "label": "Model scale (parameters)",
+   "group": "11. MODEL DIFFERENCES",
+   "na": false,
+   "dne": false
+  },
+  "PERSN": {
+   "id": "PERSN",
+   "label": "Hyperparameter configuration",
+   "group": "11. MODEL DIFFERENCES",
+   "na": false,
+   "dne": false
+  },
+  "CONSC": {
+   "id": "CONSC",
+   "label": "Training stability",
+   "group": "11. MODEL DIFFERENCES",
+   "na": false,
+   "dne": false
+  },
+  "OPEN": {
+   "id": "OPEN",
+   "label": "Exploration rate (epsilon)",
+   "group": "11. MODEL DIFFERENCES",
+   "na": false,
+   "dne": false
+  },
+  "NEURO": {
+   "id": "NEURO",
+   "label": "Architecture diversity",
+   "group": "11. MODEL DIFFERENCES",
+   "na": false,
+   "dne": false
+  },
+  "LANGB": {
+   "id": "LANGB",
+   "label": "Training language mix",
+   "group": "11. MODEL DIFFERENCES",
+   "na": false,
+   "dne": false
+  },
+  "AGEG": {
+   "id": "AGEG",
+   "label": "Training stage (epoch)",
+   "group": "11. MODEL DIFFERENCES",
+   "na": false,
+   "dne": false
+  },
+  "SELFREG": {
+   "id": "SELFREG",
+   "label": "Gradient clipping",
+   "group": "11. MODEL DIFFERENCES",
+   "na": false,
+   "dne": false
+  },
+  "TEMP": {
+   "id": "TEMP",
+   "label": "Random seed and initialization",
+   "group": "11. MODEL DIFFERENCES",
+   "na": false,
+   "dne": false
+  },
+  "EXPERT": {
+   "id": "EXPERT",
+   "label": "Negative transfer",
+   "group": "11. MODEL DIFFERENCES",
+   "na": false,
+   "dne": false
+  },
+  "STYLES": {
+   "id": "STYLES",
+   "label": "Learning styles MYTH (DNE)",
+   "group": "11. MODEL DIFFERENCES",
+   "na": false,
+   "dne": true
+  },
+  "GENDER": {
+   "id": "GENDER",
+   "label": "Data coverage gaps",
+   "group": "11. MODEL DIFFERENCES",
+   "na": false,
+   "dne": false
+  },
+  "HEALTH": {
+   "id": "HEALTH",
+   "label": "Mental health depression (N/A)",
+   "group": "11. MODEL DIFFERENCES",
+   "na": true,
+   "dne": false
+  },
+  "BASEL": {
+   "id": "BASEL",
+   "label": "Baseline model quality",
+   "group": "11. MODEL DIFFERENCES",
+   "na": false,
+   "dne": false
+  },
+  "KNOW": {
+   "id": "KNOW",
+   "label": "Learned knowledge",
+   "group": "12. CAPABILITIES",
+   "na": false,
+   "dne": false
+  },
+  "SKILL": {
+   "id": "SKILL",
+   "label": "Capability",
+   "group": "12. CAPABILITIES",
+   "na": false,
+   "dne": false
+  },
+  "HABIT": {
+   "id": "HABIT",
+   "label": "Default policy",
+   "group": "12. CAPABILITIES",
+   "na": false,
+   "dne": false
+  },
+  "UNDER": {
+   "id": "UNDER",
+   "label": "Generalization",
+   "group": "12. CAPABILITIES",
+   "na": false,
+   "dne": false
+  },
+  "TRANSFER": {
+   "id": "TRANSFER",
+   "label": "Transfer learning",
+   "group": "12. CAPABILITIES",
+   "na": false,
+   "dne": false
+  },
+  "EXPT": {
+   "id": "EXPT",
+   "label": "Specialist model",
+   "group": "12. CAPABILITIES",
+   "na": false,
+   "dne": false
+  },
+  "RET": {
+   "id": "RET",
+   "label": "Weight retention",
+   "group": "12. CAPABILITIES",
+   "na": false,
+   "dne": false
+  },
+  "BEHAV": {
+   "id": "BEHAV",
+   "label": "Policy updates",
+   "group": "12. CAPABILITIES",
+   "na": false,
+   "dne": false
+  },
+  "CREAT": {
+   "id": "CREAT",
+   "label": "Generative diversity",
+   "group": "12. CAPABILITIES",
+   "na": false,
+   "dne": false
+  },
+  "WELL": {
+   "id": "WELL",
+   "label": "Wellbeing (DNE) and continual learning",
+   "group": "12. CAPABILITIES",
+   "na": false,
+   "dne": true
+  },
+  "ADAPT": {
+   "id": "ADAPT",
+   "label": "Domain adaptation",
+   "group": "12. CAPABILITIES",
+   "na": false,
+   "dne": false
+  },
+  "STRAT_ENTRY": {
+   "id": "STRAT_ENTRY",
+   "label": "Training strategy selection",
+   "group": "12. CAPABILITIES",
+   "na": false,
+   "dne": false
+  },
+  "SOCLEARN_NOTE": {
+   "id": "SOCLEARN_NOTE",
+   "label": "Off-policy learning",
+   "group": "12. CAPABILITIES",
+   "na": false,
+   "dne": false
+  }
+ },
+ "lines": [
+  {
+   "from": "GEN",
+   "to": "DEV",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-01"
+  },
+  {
+   "from": "GEN",
+   "to": "BDNF",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-02"
+  },
+  {
+   "from": "DEV",
+   "to": "CRIT",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-03"
+  },
+  {
+   "from": "DEV",
+   "to": "MYEL",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-04"
+  },
+  {
+   "from": "DEV",
+   "to": "SPINE",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-05"
+  },
+  {
+   "from": "CRIT",
+   "to": "PNN",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-06"
+  },
+  {
+   "from": "PNN",
+   "to": "LTP",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-07"
+  },
+  {
+   "from": "NMDA",
+   "to": "LTP",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-08"
+  },
+  {
+   "from": "LTP",
+   "to": "HEB",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-09"
+  },
+  {
+   "from": "LTP",
+   "to": "STDP",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-10"
+  },
+  {
+   "from": "METAP",
+   "to": "LTP",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-11"
+  },
+  {
+   "from": "LTP",
+   "to": "SPINE",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-12"
+  },
+  {
+   "from": "LTP",
+   "to": "IEG",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-13"
+  },
+  {
+   "from": "IEG",
+   "to": "CONS",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-14"
+  },
+  {
+   "from": "BDNF",
+   "to": "LTP",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-15"
+  },
+  {
+   "from": "BDNF",
+   "to": "NGEN",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-16"
+  },
+  {
+   "from": "NGEN",
+   "to": "PATSEP",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-17"
+  },
+  {
+   "from": "GLIA",
+   "to": "LTP",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-18"
+  },
+  {
+   "from": "GLIA",
+   "to": "MYEL",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-19"
+  },
+  {
+   "from": "MYEL",
+   "to": "SPEED",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-20"
+  },
+  {
+   "from": "SPINE",
+   "to": "LTM",
+   "kind": "solid",
+   "section": "Neural substrate internal",
+   "group": "NS",
+   "excluded": false,
+   "id": "NS-21"
+  },
+  {
+   "from": "DA",
+   "to": "LTP",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": false,
+   "id": "NM-01"
+  },
+  {
+   "from": "DA",
+   "to": "RPE",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": false,
+   "id": "NM-02"
+  },
+  {
+   "from": "ACH",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": false,
+   "id": "NM-03"
+  },
+  {
+   "from": "ACH",
+   "to": "ENC",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": false,
+   "id": "NM-04"
+  },
+  {
+   "from": "NE",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": false,
+   "id": "NM-05"
+  },
+  {
+   "from": "NE",
+   "to": "CONS",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": false,
+   "id": "NM-06"
+  },
+  {
+   "from": "NE",
+   "to": "AROUS",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": false,
+   "id": "NM-07"
+  },
+  {
+   "from": "SER",
+   "to": "EMOREG",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": false,
+   "id": "NM-08"
+  },
+  {
+   "from": "SER",
+   "to": "METAP",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": false,
+   "id": "NM-09"
+  },
+  {
+   "from": "GLU",
+   "to": "NMDA",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": false,
+   "id": "NM-10"
+  },
+  {
+   "from": "GABA",
+   "to": "CRIT",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": false,
+   "id": "NM-11"
+  },
+  {
+   "from": "GABA",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": false,
+   "id": "NM-12"
+  },
+  {
+   "from": "CORT",
+   "to": "HIP",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "CORT",
+   "to": "STRESS",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "OXY",
+   "to": "PARENT",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": false,
+   "id": "NM-13"
+  },
+  {
+   "from": "OXY",
+   "to": "OBS",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": false,
+   "id": "NM-14"
+  },
+  {
+   "from": "ENDO",
+   "to": "LTP",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": false,
+   "id": "NM-15"
+  },
+  {
+   "from": "VTA",
+   "to": "DA",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": false,
+   "id": "NM-16"
+  },
+  {
+   "from": "LC",
+   "to": "NE",
+   "kind": "solid",
+   "section": "Neuromodulators",
+   "group": "NM",
+   "excluded": false,
+   "id": "NM-17"
+  },
+  {
+   "from": "HIP",
+   "to": "ENC",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-01"
+  },
+  {
+   "from": "HIP",
+   "to": "EPI",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-02"
+  },
+  {
+   "from": "HIP",
+   "to": "SYSCON",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-03"
+  },
+  {
+   "from": "HIP",
+   "to": "PATSEP",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-04"
+  },
+  {
+   "from": "ENT",
+   "to": "HIP",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-05"
+  },
+  {
+   "from": "PERI",
+   "to": "HIP",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-06"
+  },
+  {
+   "from": "HIP",
+   "to": "SWR",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-07"
+  },
+  {
+   "from": "NEO",
+   "to": "SEM",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-08"
+  },
+  {
+   "from": "NEO",
+   "to": "PERCL",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-09"
+  },
+  {
+   "from": "PFC",
+   "to": "WM",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-10"
+  },
+  {
+   "from": "PFC",
+   "to": "EF",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-11"
+  },
+  {
+   "from": "PFC",
+   "to": "META",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-12"
+  },
+  {
+   "from": "PFC",
+   "to": "INHIB",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-13"
+  },
+  {
+   "from": "PFC",
+   "to": "SCHEMA",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-14"
+  },
+  {
+   "from": "AMY",
+   "to": "EMO",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-15"
+  },
+  {
+   "from": "AMY",
+   "to": "CONS",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-16"
+  },
+  {
+   "from": "AMY",
+   "to": "FEAR",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-17"
+  },
+  {
+   "from": "BG",
+   "to": "PROC",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-18"
+  },
+  {
+   "from": "BG",
+   "to": "OPER",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-19"
+  },
+  {
+   "from": "BG",
+   "to": "HABIT",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-20"
+  },
+  {
+   "from": "BG",
+   "to": "RL",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-21"
+  },
+  {
+   "from": "CB",
+   "to": "MOTOR",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-22"
+  },
+  {
+   "from": "CB",
+   "to": "ERRL",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-23"
+  },
+  {
+   "from": "THAL",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-24"
+  },
+  {
+   "from": "ACC",
+   "to": "ERRL",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-25"
+  },
+  {
+   "from": "ACC",
+   "to": "PERS",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-26"
+  },
+  {
+   "from": "PAR",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-27"
+  },
+  {
+   "from": "FPN",
+   "to": "EF",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-28"
+  },
+  {
+   "from": "SAL",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-29"
+  },
+  {
+   "from": "DMN",
+   "to": "REFL",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-30"
+  },
+  {
+   "from": "DMN",
+   "to": "INSIGHT",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-31"
+  },
+  {
+   "from": "DMN",
+   "to": "SYSCON",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-32"
+  },
+  {
+   "from": "MIRR",
+   "to": "OBS",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-33"
+  },
+  {
+   "from": "MIRR",
+   "to": "IMIT",
+   "kind": "solid",
+   "section": "Systems",
+   "group": "SY",
+   "excluded": false,
+   "id": "SY-34"
+  },
+  {
+   "from": "SLEEP",
+   "to": "SWS",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": false,
+   "id": "PH-01"
+  },
+  {
+   "from": "SLEEP",
+   "to": "REM",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": false,
+   "id": "PH-02"
+  },
+  {
+   "from": "SWS",
+   "to": "SWR",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": false,
+   "id": "PH-03"
+  },
+  {
+   "from": "SWR",
+   "to": "REPL",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": false,
+   "id": "PH-04"
+  },
+  {
+   "from": "REPL",
+   "to": "SYSCON",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": false,
+   "id": "PH-05"
+  },
+  {
+   "from": "REM",
+   "to": "CREAT",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": false,
+   "id": "PH-06"
+  },
+  {
+   "from": "REM",
+   "to": "CONS",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": false,
+   "id": "PH-07"
+  },
+  {
+   "from": "SLEEP",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": false,
+   "id": "PH-08"
+  },
+  {
+   "from": "SLEEP",
+   "to": "EMOREG",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": false,
+   "id": "PH-09"
+  },
+  {
+   "from": "CIRC",
+   "to": "SLEEP",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "EXER",
+   "to": "BDNF",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "EXER",
+   "to": "NGEN",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "EXER",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "EXER",
+   "to": "SLEEP",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "NUTR",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": false,
+   "id": "PH-10"
+  },
+  {
+   "from": "HYD",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "STRESS",
+   "to": "CORT",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "STRESS",
+   "to": "WM",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": false,
+   "id": "PH-11"
+  },
+  {
+   "from": "STRESS",
+   "to": "RETR",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": false,
+   "id": "PH-12"
+  },
+  {
+   "from": "STRESS",
+   "to": "ANX",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": false,
+   "id": "PH-13"
+  },
+  {
+   "from": "INFL",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "INFL",
+   "to": "MOT",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "AGE",
+   "to": "NGEN",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "AGE",
+   "to": "SPEED",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "AGE",
+   "to": "LTP",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "HORM",
+   "to": "MOT",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "SUBST",
+   "to": "SLEEP",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "SUBST",
+   "to": "ENC",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "SENS",
+   "to": "PERC",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": false,
+   "id": "PH-14"
+  },
+  {
+   "from": "EMBOD",
+   "to": "GEST",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": false,
+   "id": "PH-15"
+  },
+  {
+   "from": "GEST",
+   "to": "ENC",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": false,
+   "id": "PH-16"
+  },
+  {
+   "from": "BASEL",
+   "to": "SLEEP",
+   "kind": "solid",
+   "section": "Physiology",
+   "group": "PH",
+   "excluded": false,
+   "id": "PH-17"
+  },
+  {
+   "from": "PERC",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-01"
+  },
+  {
+   "from": "ATT",
+   "to": "SELATT",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-02"
+  },
+  {
+   "from": "SELATT",
+   "to": "ENC",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-03"
+  },
+  {
+   "from": "SENSM",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-04"
+  },
+  {
+   "from": "ENC",
+   "to": "WM",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-05"
+  },
+  {
+   "from": "WM",
+   "to": "CL",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-06"
+  },
+  {
+   "from": "CL",
+   "to": "ICL",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-07"
+  },
+  {
+   "from": "CL",
+   "to": "ECL",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-08"
+  },
+  {
+   "from": "CL",
+   "to": "GCL",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-09"
+  },
+  {
+   "from": "GCL",
+   "to": "SCHEMA",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-10"
+  },
+  {
+   "from": "WM",
+   "to": "CHUNK",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-11"
+  },
+  {
+   "from": "CHUNK",
+   "to": "LTM",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-12"
+  },
+  {
+   "from": "WM",
+   "to": "CONS",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-13"
+  },
+  {
+   "from": "CONS",
+   "to": "SYSCON",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-14"
+  },
+  {
+   "from": "SYSCON",
+   "to": "LTM",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-15"
+  },
+  {
+   "from": "LTM",
+   "to": "RETR",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-16"
+  },
+  {
+   "from": "RETR",
+   "to": "RECON",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-17"
+  },
+  {
+   "from": "RECON",
+   "to": "CONS",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-18"
+  },
+  {
+   "from": "RETR",
+   "to": "FORG",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-19"
+  },
+  {
+   "from": "FORG",
+   "to": "DECAY",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-20"
+  },
+  {
+   "from": "FORG",
+   "to": "RETR",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-21"
+  },
+  {
+   "from": "PRED",
+   "to": "ERRL",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-22"
+  },
+  {
+   "from": "PRED",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-23"
+  },
+  {
+   "from": "PRED",
+   "to": "SCHEMA",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-24"
+  },
+  {
+   "from": "SCHEMA",
+   "to": "ABSTR",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-25"
+  },
+  {
+   "from": "ABSTR",
+   "to": "ANALOG",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-26"
+  },
+  {
+   "from": "ANALOG",
+   "to": "TRANSFER",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-27"
+  },
+  {
+   "from": "SCHEMA",
+   "to": "CONCEPT",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-28"
+  },
+  {
+   "from": "EF",
+   "to": "WM",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-29"
+  },
+  {
+   "from": "EF",
+   "to": "SRL",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-30"
+  },
+  {
+   "from": "INHIB",
+   "to": "SELATT",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-31"
+  },
+  {
+   "from": "SHIFT",
+   "to": "TRANSFER",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-32"
+  },
+  {
+   "from": "META",
+   "to": "JOL",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-33"
+  },
+  {
+   "from": "JOL",
+   "to": "CALIB",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-34"
+  },
+  {
+   "from": "CALIB",
+   "to": "SRL",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-35"
+  },
+  {
+   "from": "META",
+   "to": "SRL",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-36"
+  },
+  {
+   "from": "SRL",
+   "to": "STRAT_ENTRY",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-37"
+  },
+  {
+   "from": "DUAL",
+   "to": "ENC",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-38"
+  },
+  {
+   "from": "PATSEP",
+   "to": "EPI",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-39"
+  },
+  {
+   "from": "AUTO",
+   "to": "WM",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-40"
+  },
+  {
+   "from": "PROC",
+   "to": "AUTO",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-41"
+  },
+  {
+   "from": "REASON",
+   "to": "UNDER",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-42"
+  },
+  {
+   "from": "PROSP",
+   "to": "HABIT",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-43"
+  },
+  {
+   "from": "SPEED",
+   "to": "WM",
+   "kind": "solid",
+   "section": "Cognitive pipeline",
+   "group": "CP",
+   "excluded": false,
+   "id": "CP-44"
+  },
+  {
+   "from": "SENSM",
+   "to": "STM",
+   "kind": "solid",
+   "section": "Memory systems",
+   "group": "MS",
+   "excluded": false,
+   "id": "MS-01"
+  },
+  {
+   "from": "STM",
+   "to": "WM",
+   "kind": "solid",
+   "section": "Memory systems",
+   "group": "MS",
+   "excluded": false,
+   "id": "MS-02"
+  },
+  {
+   "from": "STM",
+   "to": "LTM",
+   "kind": "solid",
+   "section": "Memory systems",
+   "group": "MS",
+   "excluded": false,
+   "id": "MS-03"
+  },
+  {
+   "from": "LTM",
+   "to": "EXPL",
+   "kind": "solid",
+   "section": "Memory systems",
+   "group": "MS",
+   "excluded": false,
+   "id": "MS-04"
+  },
+  {
+   "from": "LTM",
+   "to": "IMPL",
+   "kind": "solid",
+   "section": "Memory systems",
+   "group": "MS",
+   "excluded": false,
+   "id": "MS-05"
+  },
+  {
+   "from": "EXPL",
+   "to": "EPI",
+   "kind": "solid",
+   "section": "Memory systems",
+   "group": "MS",
+   "excluded": false,
+   "id": "MS-06"
+  },
+  {
+   "from": "EXPL",
+   "to": "SEM",
+   "kind": "solid",
+   "section": "Memory systems",
+   "group": "MS",
+   "excluded": false,
+   "id": "MS-07"
+  },
+  {
+   "from": "EPI",
+   "to": "SEM",
+   "kind": "solid",
+   "section": "Memory systems",
+   "group": "MS",
+   "excluded": false,
+   "id": "MS-08"
+  },
+  {
+   "from": "EPI",
+   "to": "AUTOB",
+   "kind": "solid",
+   "section": "Memory systems",
+   "group": "MS",
+   "excluded": false,
+   "id": "MS-09"
+  },
+  {
+   "from": "EPI",
+   "to": "SRCM",
+   "kind": "solid",
+   "section": "Memory systems",
+   "group": "MS",
+   "excluded": false,
+   "id": "MS-10"
+  },
+  {
+   "from": "IMPL",
+   "to": "PROC",
+   "kind": "solid",
+   "section": "Memory systems",
+   "group": "MS",
+   "excluded": false,
+   "id": "MS-11"
+  },
+  {
+   "from": "IMPL",
+   "to": "PRIM",
+   "kind": "solid",
+   "section": "Memory systems",
+   "group": "MS",
+   "excluded": false,
+   "id": "MS-12"
+  },
+  {
+   "from": "IMPL",
+   "to": "CONDM",
+   "kind": "solid",
+   "section": "Memory systems",
+   "group": "MS",
+   "excluded": false,
+   "id": "MS-13"
+  },
+  {
+   "from": "HAB",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-01"
+  },
+  {
+   "from": "CLASS",
+   "to": "CONDM",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-02"
+  },
+  {
+   "from": "CLASS",
+   "to": "AMY",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-03"
+  },
+  {
+   "from": "OPER",
+   "to": "HABIT",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-04"
+  },
+  {
+   "from": "RL",
+   "to": "RPE",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-05"
+  },
+  {
+   "from": "RPE",
+   "to": "DA",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-06"
+  },
+  {
+   "from": "RL",
+   "to": "MB",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-07"
+  },
+  {
+   "from": "MB",
+   "to": "PFC",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-08"
+  },
+  {
+   "from": "STAT",
+   "to": "IMPLL",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-09"
+  },
+  {
+   "from": "STAT",
+   "to": "LANG",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-10"
+  },
+  {
+   "from": "IMPLL",
+   "to": "IMPL",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-11"
+  },
+  {
+   "from": "OBS",
+   "to": "SKILL",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-12"
+  },
+  {
+   "from": "OBS",
+   "to": "SOCLEARN_NOTE",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-13"
+  },
+  {
+   "from": "IMIT",
+   "to": "LANG",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-14"
+  },
+  {
+   "from": "INSIGHT",
+   "to": "UNDER",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-15"
+  },
+  {
+   "from": "PLAY",
+   "to": "CUR",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-16"
+  },
+  {
+   "from": "PLAY",
+   "to": "CAUS",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-17"
+  },
+  {
+   "from": "LANG",
+   "to": "SEM",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-18"
+  },
+  {
+   "from": "MOTOR",
+   "to": "PROC",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-19"
+  },
+  {
+   "from": "PERCL",
+   "to": "PERC",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-20"
+  },
+  {
+   "from": "CONCEPT",
+   "to": "UNDER",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-21"
+  },
+  {
+   "from": "ERRL",
+   "to": "PRED",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-22"
+  },
+  {
+   "from": "ACTINF",
+   "to": "PRED",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-23"
+  },
+  {
+   "from": "ACTINF",
+   "to": "CUR",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-24"
+  },
+  {
+   "from": "CAUS",
+   "to": "SCHEMA",
+   "kind": "solid",
+   "section": "Mechanisms",
+   "group": "ME",
+   "excluded": false,
+   "id": "ME-25"
+  },
+  {
+   "from": "MOT",
+   "to": "INTR",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-01"
+  },
+  {
+   "from": "MOT",
+   "to": "EXTR",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-02"
+  },
+  {
+   "from": "SDT",
+   "to": "INTR",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-03"
+  },
+  {
+   "from": "CUR",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-04"
+  },
+  {
+   "from": "CUR",
+   "to": "DA",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-05"
+  },
+  {
+   "from": "INT",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-06"
+  },
+  {
+   "from": "INT",
+   "to": "PERS",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-07"
+  },
+  {
+   "from": "GOAL",
+   "to": "MOT",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-08"
+  },
+  {
+   "from": "EXPV",
+   "to": "MOT",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-09"
+  },
+  {
+   "from": "SELFE",
+   "to": "PERS",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-10"
+  },
+  {
+   "from": "SELFE",
+   "to": "SRL",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-11"
+  },
+  {
+   "from": "MIND",
+   "to": "PERS",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-12"
+  },
+  {
+   "from": "MIND",
+   "to": "ERRL",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-13"
+  },
+  {
+   "from": "ATTRIB",
+   "to": "SELFE",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-14"
+  },
+  {
+   "from": "EMO",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-15"
+  },
+  {
+   "from": "EMO",
+   "to": "CONS",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-16"
+  },
+  {
+   "from": "AROUS",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-17"
+  },
+  {
+   "from": "ANX",
+   "to": "WM",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-18"
+  },
+  {
+   "from": "ANX",
+   "to": "CL",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-19"
+  },
+  {
+   "from": "BORE",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-20"
+  },
+  {
+   "from": "FLOW",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-21"
+  },
+  {
+   "from": "FLOW",
+   "to": "MOT",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-22"
+  },
+  {
+   "from": "REWD",
+   "to": "DA",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-23"
+  },
+  {
+   "from": "REWD",
+   "to": "HABIT",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-24"
+  },
+  {
+   "from": "FEAR",
+   "to": "AMY",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-25"
+  },
+  {
+   "from": "EMOREG",
+   "to": "ANX",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-26"
+  },
+  {
+   "from": "PERS",
+   "to": "DP",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-27"
+  },
+  {
+   "from": "IDENT",
+   "to": "MOT",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-28"
+  },
+  {
+   "from": "SENSE",
+   "to": "SDT",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-29"
+  },
+  {
+   "from": "INTR",
+   "to": "PERS",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-30"
+  },
+  {
+   "from": "EXTR",
+   "to": "OPER",
+   "kind": "solid",
+   "section": "Motivation and emotion",
+   "group": "MO",
+   "excluded": false,
+   "id": "MO-31"
+  },
+  {
+   "from": "RP",
+   "to": "RETR",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-01"
+  },
+  {
+   "from": "RP",
+   "to": "CONS",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-02"
+  },
+  {
+   "from": "SP",
+   "to": "CONS",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-03"
+  },
+  {
+   "from": "SP",
+   "to": "FORG",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-04"
+  },
+  {
+   "from": "INTL",
+   "to": "ABSTR",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-05"
+  },
+  {
+   "from": "INTL",
+   "to": "TRANSFER",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-06"
+  },
+  {
+   "from": "ELAB",
+   "to": "SEM",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-07"
+  },
+  {
+   "from": "ELAB",
+   "to": "ENC",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-08"
+  },
+  {
+   "from": "SELFEX",
+   "to": "UNDER",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-09"
+  },
+  {
+   "from": "GEN2",
+   "to": "ENC",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-10"
+  },
+  {
+   "from": "FB",
+   "to": "ERRL",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-11"
+  },
+  {
+   "from": "FB",
+   "to": "SELFE",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-12"
+  },
+  {
+   "from": "FB",
+   "to": "CALIB",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-13"
+  },
+  {
+   "from": "DD",
+   "to": "RETR",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-14"
+  },
+  {
+   "from": "DP",
+   "to": "SKILL",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-15"
+  },
+  {
+   "from": "DP",
+   "to": "FB",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-16"
+  },
+  {
+   "from": "WE",
+   "to": "ICL",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-17"
+  },
+  {
+   "from": "WE",
+   "to": "CL",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-18"
+  },
+  {
+   "from": "SCAF",
+   "to": "ZPD",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-19"
+  },
+  {
+   "from": "ZPD",
+   "to": "MOT",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-20"
+  },
+  {
+   "from": "MAST",
+   "to": "PK",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-21"
+  },
+  {
+   "from": "PRET",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-22"
+  },
+  {
+   "from": "PRET",
+   "to": "ENC",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-23"
+  },
+  {
+   "from": "MNEM",
+   "to": "ENC",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-24"
+  },
+  {
+   "from": "CMAP",
+   "to": "SCHEMA",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-25"
+  },
+  {
+   "from": "MULTI",
+   "to": "DUAL",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-26"
+  },
+  {
+   "from": "VAR",
+   "to": "TRANSFER",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-27"
+  },
+  {
+   "from": "TEACH",
+   "to": "UNDER",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-28"
+  },
+  {
+   "from": "COLL",
+   "to": "OBS",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-29"
+  },
+  {
+   "from": "CONTR",
+   "to": "ABSTR",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-30"
+  },
+  {
+   "from": "REFL",
+   "to": "META",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-31"
+  },
+  {
+   "from": "NOTE",
+   "to": "ENC",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-32"
+  },
+  {
+   "from": "MENT",
+   "to": "MOTOR",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-33"
+  },
+  {
+   "from": "BREAK",
+   "to": "CONS",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-34"
+  },
+  {
+   "from": "BREAK",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-35"
+  },
+  {
+   "from": "OVERL",
+   "to": "AUTO",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-36"
+  },
+  {
+   "from": "SUMM",
+   "to": "ELAB",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-37"
+  },
+  {
+   "from": "STRAT_ENTRY",
+   "to": "RP",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-38"
+  },
+  {
+   "from": "STRAT_ENTRY",
+   "to": "SP",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-39"
+  },
+  {
+   "from": "STRAT_ENTRY",
+   "to": "INTL",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-40"
+  },
+  {
+   "from": "STRAT_ENTRY",
+   "to": "ELAB",
+   "kind": "solid",
+   "section": "Strategies to processes",
+   "group": "ST",
+   "excluded": false,
+   "id": "ST-41"
+  },
+  {
+   "from": "TEACHER",
+   "to": "SCAF",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-01"
+  },
+  {
+   "from": "TEACHER",
+   "to": "FB",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-02"
+  },
+  {
+   "from": "TEACHER",
+   "to": "EXPECT",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-03"
+  },
+  {
+   "from": "PEER",
+   "to": "OBS",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-04"
+  },
+  {
+   "from": "PEER",
+   "to": "BELONG",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-05"
+  },
+  {
+   "from": "PARENT",
+   "to": "OXY",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-06"
+  },
+  {
+   "from": "PARENT",
+   "to": "LANGENV",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-07"
+  },
+  {
+   "from": "PARENT",
+   "to": "TEMP",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-08"
+  },
+  {
+   "from": "SES",
+   "to": "NUTRI",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-09"
+  },
+  {
+   "from": "NUTRI",
+   "to": "STRESS",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-10"
+  },
+  {
+   "from": "NUTRI",
+   "to": "DEV",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-11"
+  },
+  {
+   "from": "SES",
+   "to": "SCHOOL",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-12"
+  },
+  {
+   "from": "LANGENV",
+   "to": "LANG",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-13"
+  },
+  {
+   "from": "CULT",
+   "to": "GOAL",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-14"
+  },
+  {
+   "from": "CULT",
+   "to": "IDENT",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-15"
+  },
+  {
+   "from": "CLIM",
+   "to": "SAFE",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-16"
+  },
+  {
+   "from": "SAFE",
+   "to": "ANX",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-17"
+  },
+  {
+   "from": "BELONG",
+   "to": "MOT",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-18"
+  },
+  {
+   "from": "STEREO",
+   "to": "ANX",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-19"
+  },
+  {
+   "from": "STEREO",
+   "to": "WM",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-20"
+  },
+  {
+   "from": "TECH",
+   "to": "DISTR",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-21"
+  },
+  {
+   "from": "DISTR",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-22"
+  },
+  {
+   "from": "PHYS2",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-23"
+  },
+  {
+   "from": "CTX",
+   "to": "RETR",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-24"
+  },
+  {
+   "from": "NATURE",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-25"
+  },
+  {
+   "from": "NATURE",
+   "to": "STRESS",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-26"
+  },
+  {
+   "from": "SCHOOL",
+   "to": "RP",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-27"
+  },
+  {
+   "from": "EXPECT",
+   "to": "SELFE",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-28"
+  },
+  {
+   "from": "COMM",
+   "to": "IDENT",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-29"
+  },
+  {
+   "from": "SAFE",
+   "to": "CUR",
+   "kind": "solid",
+   "section": "Social and environment",
+   "group": "SO",
+   "excluded": false,
+   "id": "SO-30"
+  },
+  {
+   "from": "PK",
+   "to": "ENC",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-01"
+  },
+  {
+   "from": "PK",
+   "to": "CL",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-02"
+  },
+  {
+   "from": "PK",
+   "to": "SCHEMA",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-03"
+  },
+  {
+   "from": "PK",
+   "to": "EXPERT",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-04"
+  },
+  {
+   "from": "EXPERT",
+   "to": "SCAF",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-05"
+  },
+  {
+   "from": "WMC",
+   "to": "WM",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-06"
+  },
+  {
+   "from": "IQ",
+   "to": "REASON",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-07"
+  },
+  {
+   "from": "IQ",
+   "to": "SPEED",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-08"
+  },
+  {
+   "from": "PERSN",
+   "to": "CONSC",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-09"
+  },
+  {
+   "from": "PERSN",
+   "to": "OPEN",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-10"
+  },
+  {
+   "from": "CONSC",
+   "to": "PERS",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-11"
+  },
+  {
+   "from": "OPEN",
+   "to": "CUR",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-12"
+  },
+  {
+   "from": "NEURO",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-13"
+  },
+  {
+   "from": "NEURO",
+   "to": "EF",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-14"
+  },
+  {
+   "from": "NEURO",
+   "to": "PERC",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-15"
+  },
+  {
+   "from": "LANGB",
+   "to": "LANG",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-16"
+  },
+  {
+   "from": "AGEG",
+   "to": "CRIT",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-17"
+  },
+  {
+   "from": "AGEG",
+   "to": "EF",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-18"
+  },
+  {
+   "from": "SELFREG",
+   "to": "EF",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-19"
+  },
+  {
+   "from": "SELFREG",
+   "to": "HABIT",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-20"
+  },
+  {
+   "from": "TEMP",
+   "to": "EMOREG",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-21"
+  },
+  {
+   "from": "STYLES",
+   "to": "TEACH",
+   "kind": "dotted",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "label": "no evidence for matching",
+   "id": "ID-22"
+  },
+  {
+   "from": "GENDER",
+   "to": "SELFE",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": false,
+   "id": "ID-23"
+  },
+  {
+   "from": "HEALTH",
+   "to": "MOT",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "HEALTH",
+   "to": "ATT",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "HEALTH",
+   "to": "SLEEP",
+   "kind": "solid",
+   "section": "Individual differences",
+   "group": "ID",
+   "excluded": true,
+   "id": null,
+   "excluded_reason": "touches an N/A node"
+  },
+  {
+   "from": "EPI",
+   "to": "KNOW",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-01"
+  },
+  {
+   "from": "SEM",
+   "to": "KNOW",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-02"
+  },
+  {
+   "from": "PROC",
+   "to": "SKILL",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-03"
+  },
+  {
+   "from": "AUTO",
+   "to": "SKILL",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-04"
+  },
+  {
+   "from": "HABIT",
+   "to": "BEHAV",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-05"
+  },
+  {
+   "from": "UNDER",
+   "to": "TRANSFER",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-06"
+  },
+  {
+   "from": "KNOW",
+   "to": "UNDER",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-07"
+  },
+  {
+   "from": "SKILL",
+   "to": "EXPT",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-08"
+  },
+  {
+   "from": "KNOW",
+   "to": "EXPT",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-09"
+  },
+  {
+   "from": "LTM",
+   "to": "RET",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-10"
+  },
+  {
+   "from": "SCHEMA",
+   "to": "TRANSFER",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-11"
+  },
+  {
+   "from": "TRANSFER",
+   "to": "ADAPT",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-12"
+  },
+  {
+   "from": "EXPT",
+   "to": "ADAPT",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-13"
+  },
+  {
+   "from": "DMN",
+   "to": "CREAT",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-14"
+  },
+  {
+   "from": "ABSTR",
+   "to": "CREAT",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-15"
+  },
+  {
+   "from": "CREAT",
+   "to": "ADAPT",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-16"
+  },
+  {
+   "from": "INTR",
+   "to": "WELL",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-17"
+  },
+  {
+   "from": "RET",
+   "to": "KNOW",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-18"
+  },
+  {
+   "from": "BEHAV",
+   "to": "WELL",
+   "kind": "solid",
+   "section": "Outcomes",
+   "group": "OU",
+   "excluded": false,
+   "id": "OU-19"
+  },
+  {
+   "from": "KNOW",
+   "to": "LEARN",
+   "kind": "solid",
+   "section": "Link to center",
+   "group": "LC",
+   "excluded": false,
+   "id": "LC-01"
+  },
+  {
+   "from": "SKILL",
+   "to": "LEARN",
+   "kind": "solid",
+   "section": "Link to center",
+   "group": "LC",
+   "excluded": false,
+   "id": "LC-02"
+  },
+  {
+   "from": "HABIT",
+   "to": "LEARN",
+   "kind": "solid",
+   "section": "Link to center",
+   "group": "LC",
+   "excluded": false,
+   "id": "LC-03"
+  },
+  {
+   "from": "UNDER",
+   "to": "LEARN",
+   "kind": "solid",
+   "section": "Link to center",
+   "group": "LC",
+   "excluded": false,
+   "id": "LC-04"
+  },
+  {
+   "from": "TRANSFER",
+   "to": "LEARN",
+   "kind": "solid",
+   "section": "Link to center",
+   "group": "LC",
+   "excluded": false,
+   "id": "LC-05"
+  },
+  {
+   "from": "BEHAV",
+   "to": "LEARN",
+   "kind": "solid",
+   "section": "Link to center",
+   "group": "LC",
+   "excluded": false,
+   "id": "LC-06"
+  },
+  {
+   "from": "LEARN",
+   "to": "EXPT",
+   "kind": "solid",
+   "section": "Link to center",
+   "group": "LC",
+   "excluded": false,
+   "id": "LC-07"
+  },
+  {
+   "from": "LEARN",
+   "to": "WELL",
+   "kind": "solid",
+   "section": "Link to center",
+   "group": "LC",
+   "excluded": false,
+   "id": "LC-08"
+  },
+  {
+   "from": "LEARN",
+   "to": "PK",
+   "kind": "dotted",
+   "section": "Link to center",
+   "group": "LC",
+   "excluded": false,
+   "label": "feeds back",
+   "id": "LC-09"
+  },
+  {
+   "from": "LEARN",
+   "to": "SELFE",
+   "kind": "dotted",
+   "section": "Link to center",
+   "group": "LC",
+   "excluded": false,
+   "label": "feeds back",
+   "id": "LC-10"
+  },
+  {
+   "from": "LEARN",
+   "to": "LTP",
+   "kind": "dotted",
+   "section": "Link to center",
+   "group": "LC",
+   "excluded": false,
+   "label": "reshapes",
+   "id": "LC-11"
+  }
+ ]
+}

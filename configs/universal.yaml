@@ -1,0 +1,653 @@
+# SkyBot's UNIVERSAL BRAIN contract — docs/architecture/arc-004-universal-games.md §3.1.
+#
+# Deep-merged over configs/minecraft_skybot.yaml (the tuned learner) by
+# tools/compose_run_config.py, then the enabled games are added as streams.
+# Lists REPLACE (they are not concatenated); maps merge key by key.
+#
+# EVERY value here fixes a shape or a location of the ONE brain all games
+# share. Changing action_slots, image_size or the sensor list after a run has
+# started makes the saved brain unloadable — decide those deliberately.
+
+universal:
+  # tools/grow_brain.py records the world model's current size (and stream
+  # count) here; tools/compose_run_config.py builds that size at every launch
+  scale_file: brain_universal/scale.json
+  # A NEW brain (no scale file, no saved world model) starts here; the launch
+  # records it in scale_file, so editing this never resizes an existing brain.
+  # tiny x 8 = the Stage C start (user, 2026-10-18): 2.4x the experience of
+  # live x 2 at 3.4 GB, the world model generalising (docs/research/res-004-rssm-size-experiment.md).
+  initial_scale: {size: tiny, streams: 8}
+  enabled: true
+  # SkyBot's controller width. Minecraft uses 28, Doom 16, a Game Boy ~10,
+  # SNES/Genesis ~16. Set generously ONCE: growing it later changes the
+  # policy head, the RSSM action input, ICM and every replay row.
+  action_slots: 48
+  # Fixed stream order for slot 0: Minecraft first whenever enabled (slot 0
+  # keeps the bare `SkyBot` player name on the Paper server — CLAUDE.md §7),
+  # then the rest alphabetically.
+  primary_order: [minecraft]
+  # Where each game's save-state ring lives (environments/rewind.py).
+  snapshot_dir: brain_universal/snapshots
+
+environment:
+  pixel_obs: true
+  image_size: 128            # the canonical square every game is resized to
+  grayscale: false
+  # A FRESH brain (user decision 2026-10-11): none of the Minecraft brain's
+  # state is read or written. It stays exactly where it is, archived.
+  break_memory_path: brain_universal/breaks_by_type.json
+
+sensors:
+  enabled:
+    - proprio
+    - screen_fx
+    - fovea_native
+    - fovea_delta
+    - dead_reckon
+    - motion
+    - true_position          # RED: evaluation only, never reaches learning
+    - light
+    - sky
+    # SOUND. Doom fills it (stereo mel, 2x32x16); Minecraft emits nothing
+    # and it reads neutral there. Needs the non-square encoder fix in
+    # rssm.SensorImageEncoder (2026-10-11).
+    - audio
+    # TIME PASSING (2026-10-11). Real-time games do not wait while SkyBot
+    # thinks, so each decision covers a different amount of game time; this
+    # is how long it was. Minecraft (synchronous) reports its fixed step
+    # (action_repeat ticks at 20 ticks/s), so the sense means the same thing
+    # in every game.
+    - tempo
+
+# POSTERIOR-COLLAPSE FIX (2026-10-17, measured on main; rssm.py compute_loss).
+# The live world model's latent carried 0.00-0.01 nats per frame: the
+# reconstruction term was a MEAN over 49,152 pixel values, too weak to make z
+# carry anything. `sum` weights it as DreamerV3 does; `embed` stops the
+# inverse-dynamics head reading the action back out of h_{t+1}. The legacy
+# Minecraft brain keeps the old model (these keys are absent there).
+# A world-model checkpoint from before this change is REFUSED cleanly at
+# resume (the inverse head changed width), so the universal world model
+# starts fresh once — the rest of the brain resumes as usual.
+# ONE LEARNING PROCESS FOR EVERY GAME (CLAUDE.md §1, 2026-10-17). `coverage`
+# (engine player position) and `gaze` (engine pitch) read values no player can
+# see; both are OFF for the whole universal brain — Minecraft included — and
+# replaced by episodic novelty (curiosity/episodic_novelty.py), computed from
+# the agent's own view in every stream of every game. Chosen by the user from
+# a graded comparison on real Doom play (docs/research/res-004-rssm-size-experiment.md).
+curiosity:
+  coverage_weight: 0.0
+  gaze_weight: 0.0
+  episodic_weight: 0.07       # coverage's old weight: same scale, legal signal
+  episodic:
+    k: 10
+    capacity: 2000            # views remembered per stream per life
+    # WP-5 (GOV-011), BUILT UNTESTED, all OFF (0 = the form above, unchanged).
+    # Arms of one protocol (weight/threshold sweep = config values, no forks):
+    #   cluster_distance: NGU's xi; neighbour distances (in units of their
+    #     running mean) below it count as zero, so near-identical views stop
+    #     paying. Start from 0.008 (NGU), try 0.0 / 0.008 / 0.05.
+    #   cap_share: largest share of (rest + episodic) the term may supply
+    #     (0 = no cap); cap_floor keeps it alive when the rest is ~0.
+    cluster_distance: 0.0
+    cap_share: 0.0
+    cap_floor: 0.002
+  # Information gain: pays for the part of the world model's surprise that the
+  # agent's own action explains (curiosity/action_surprise.py). 0 = off.
+  # agency = KL(post||action-averaged prior) - KL(post||prior(a)), in nats.
+  info_gain:
+    weight: 0.0
+    floor: 0.5                # nats of agency ignored (noise)
+    clip: 5.0                 # largest agency paid per step
+    agency_frac: 0.0          # >0: agency must be this share of the surprise
+    cap_share: 0.0
+    cap_floor: 0.002
+  action_surprise:
+    k_guard: 8                # steps ignored after a life boundary
+  report_split: false         # book learning progress apart from episodic in the ledger
+
+# WP-1 (GOV-011), BUILT UNTESTED, OFF: game-agnostic skill discovery (RES-005).
+# Trigger = world-model surprise that the agent's own action explains; effect
+# keys = clusters of the before/after change of the frozen view embedding
+# (`effect_N`); probation retires skills that do not reproduce their effect.
+# Pays NO reward. The knobs are RES-005's starting values, fitted later.
+goals:
+  discovery:
+    enabled: false
+    z_thr: 3.0              # surprise spike, baseline standard deviations
+    s_floor: 1.0            # nats; ignore spikes of a near-collapsed latent
+    agency_frac: 0.25       # share of the surprise the own action must explain
+    baseline_horizon: 1000
+    warmup: 200             # steps per stream before any fire
+    effect_delay: 2         # k: view_{t+k} minus view_{t-1}
+    tau: 0.8                # cosine to join an existing effect key
+    max_keys: 48
+    exemplars: 8            # frame pairs kept per key for encoder refresh
+    min_change: 0.05        # smaller view change = no effect
+    probation_K: 10
+    probation_alpha: 0.05
+    probation_min_successes: 2
+    backoff_start: 2        # distinct episodes; doubles per retirement
+    min_base_steps: 500
+    feed_knowledge_graph: false   # assert (skill causes effect_N) on a keep
+
+# WP-18 (GOV-011): queryable episodic memory. Built, untested, OFF. Keyed
+# store of (frozen view embedding, action, outcome after `horizon` steps);
+# outcomes are LEARNED quantities (view change, world-model surprise, drive
+# paid), never engine events. A retrieval vector (8 + action_dim wide) is
+# appended to the knowledge vector, so ON changes the policy input width: a
+# stored policy of the old width is refused at resume (starts fresh).
+outcome_memory:
+  enabled: false
+  horizon: 4
+  capacity: 4000           # rows per stream (one ring each, or one if share_streams)
+  k: 8
+  min_age: 32              # ignore the newest writes (own last frames)
+  min_sim: 0.5             # cosine floor for a neighbour to count
+  temperature: 0.1
+  share_streams: false     # true = streams read one another's outcomes (ADR-006 applies)
+  query_streams: [0]       # the knowledge vector is stream 0's, like this
+  scale_decay: 0.999
+
+# WP-4 (GOV-011): decision-time planning, uncertainty, metacognition. Built,
+# untested, OFF. FIRST VERSION runs in the LEARNING PHASE (once per segment,
+# after PPO), never inside the acting step (ADR-005). Plans (CEM over imagined
+# latent rollouts, reward head + critic value) from replayed states; cheap
+# ensemble heads give disagreement; a calibration monitor + temperature
+# scaling gate the arbiter (plan only when the policy is unsure, the model is
+# trusted, both calibrations pass; else habit). `distill.weight` 0 = measure
+# only; > 0 pulls the policy toward the plan on arbiter-chosen states.
+# `acting.enabled` is NOT wired (GOV-011 D-30).
+planning:
+  enabled: false
+  every_segments: 1
+  rows: 8
+  min_rows: 2
+  seq_len: 8
+  max_phase_s: 3.0         # measured; over it the phase halves its rows (grows back)
+  planner:
+    horizon: 6
+    candidates: 64
+    iterations: 2
+    elite_frac: 0.125
+    smoothing: 0.7
+    explore_floor: 0.02
+    gamma: 0.97
+    risk: 0.0              # weight of the ensemble-disagreement penalty on a plan's score
+  ensemble:
+    enabled: false
+    heads: 4
+    hidden: 128
+    lr: 0.001
+    train_steps: 4
+  calibration:
+    window: 2000
+    min_n: 200
+    max_ece: 0.10          # behavior-action predictability ECE; not task competence
+    min_corr: 0.20         # model channel bar (rank corr of disagreement vs error)
+    temperature_scaling: true  # score current T before fitting the next T
+    temperature_decay: 0.8
+  arbiter:
+    conf_max: 0.6
+    trust_quantile: 0.7
+    require_calibrated: true   # missing ensemble or current window fails this gate
+    history: 512
+  distill:
+    weight: 0.0
+    steps: 2
+    lr_scale: 0.1
+  acting:
+    enabled: false         # NOT WIRED in this build (D-30)
+
+# WP-12 (GOV-011; ADR-006 + Amendments): peer observation. Built, untested,
+# OFF. Streams are separate game instances; a stream may see another's recent
+# VIEWS (frozen view embedding) and chosen ACTIONS, aligned to its own decision
+# count, by anonymous slot. The channel carries NO reward, counter, engine
+# state, probation or success flag (allow-list + leakage guard). `context`
+# appends a short peer vector to the knowledge vector (changes the policy
+# input width when on); the predictor and diversity report need no width change.
+# WP-7 (GOV-009, GOV-011): attention and working memory. BUILT, UNTESTED.
+# `slots.enabled` is the EXISTING world-model slot-attention switch (off in
+# every measured run; needs world_model.flow_head and pixel_obs; adds slot_module
+# weights, so a stored world model without them is refused/fresh at resume).
+# `attention_memory` appends a gated-attention summary of the last `window`
+# latents to the knowledge vector (policy input grows by out_dim when on).
+slots:
+  enabled: false
+  num_slots: 6
+  slot_dim: 64
+  iters: 3
+  weight: 1.0
+attention_memory:
+  enabled: false
+  window: 8
+  d_model: 64
+  heads: 2
+  out_dim: 32
+  gate_bias: -2.0       # scalar gate starts mostly closed
+  lr: 0.001
+  train_every: 128      # steps between next-latent-prediction updates
+  steps: 2
+  batch: 64
+  capacity: 1024
+  store_every: 2
+  report_every: 1024
+  cost_report: true     # attention_cost.json beside the skill bank + infra/attention: line
+
+# WP-11 (GOV-009, GOV-011): risk estimation as a STATE INPUT. BUILT, UNTESTED.
+# risk = 1 - P(continue) from the world model's own continue head; stream 0's
+# feature joins the knowledge vector (width + 1, or + 2 with the head). Never a
+# reward, never a penalty. Off: width and behaviour unchanged.
+risk:
+  enabled: false
+  horizon: 16           # steps; label window for the head and the calibration report
+  feature_scale: squash # squash | raw
+  capacity: 20000
+  report_every: 1024
+  head:
+    enabled: false      # optional short-horizon risk head (own Adam)
+    hidden: 64
+    lr: 0.001
+    train_every: 128
+    steps: 2
+    batch: 128
+    min_pairs: 256
+
+# WP-13 (GOV-009, GOV-011): online hyperparameter adaptation inside the one
+# brain. BUILT, UNTESTED. A paired hill-climber over a few PPO coefficients
+# driven by learning progress (fresh-data loss drop). Population-based training
+# is not built (one shared brain); meta-learning proper is deferred (RES-007
+# H-13). Owns only meta.* registry names. Off: nothing changes.
+meta_adapt:
+  enabled: false
+  every_segments: 4
+  seq_len: 32
+  epoch_len: 4           # measurements per epoch (the first of each is dropped)
+  step: 0.1              # relative trial move
+  range: 2.0             # bounds: base / range .. base x range
+  accept_z: 1.0          # accept if diff > accept_z x control-control noise
+  min_noise_n: 3
+  noise_decay: 0.8
+  coefficients: [ppo_clip, gae_lambda]   # ppo_clip | gae_lambda | value_coef
+
+# R1 + RW-15 (GOV-010, GOV-012, ARC-006): the relation registry. Each line of the
+# owner's map is a channel rel.<FROM>.<TO> with a per-SEGMENT statistic and a
+# dead-wire alarm (telemetry only, releases by itself). BUILT, UNTESTED.
+# OBSERVATION ONLY: connected_core registers the 36 Connected lines and reads
+# state the loop already holds; nothing is written back. Per-channel override:
+#   relations: {DA: {LTP: {enabled: true}}}   (node ids of the map)
+# Off: the registry module is never imported and nothing changes.
+relations:
+  enabled: false
+  window: 20             # segments in the dead-wire window
+  eps: 0.01              # dead below eps x the channel's decayed peak
+  peak_decay: 0.99       # per segment, so a transient spike cannot latch it
+  corr_window: 20        # segments for pair correlations
+  min_corr_n: 5
+  connected_core:
+    enabled: false
+  # RW-1 (GOV-012): learning-signal modulation. Wired channels (all OFF; enable
+  # per line: relations: {LC: {NE: {enabled: true}}, NE: {AROUS: {enabled: true},
+  # CONS: {...}, ATT: {...}}}). Placeholders for the A/A noise floor, not tuned.
+  modulation:
+    amp: 0.3             # gain g = 1 + amp * clip(z of policy uncertainty, -1, 1)
+    max_step: 0.05       # slew limit per segment (also the walk-back to 1.0)
+    cons_sign: -1        # consolidation strength = 1 + sign*(g-1)  (-1: weaker when uncertain)
+    ema: 0.9             # baseline decay of the uncertainty z-score
+    min_n: 5
+    strength_lo: 0.25    # bounds of the shared consolidation-strength product
+    strength_hi: 4.0
+  # RW-3 (GOV-012): consolidation chain. Wired lines (EMO.CONS, AMY.CONS, RP.CONS,
+  # BREAK.CONS) add factors to the shared consolidation-strength product; the
+  # rest read the consolidation phase's own statistics. All OFF.
+  consolidation:
+    amp: 0.3             # factor = 1 + amp * clip(z, -1, 1)
+    fresh_every: 4       # segments between fresh-data loss measurements (RP.CONS)
+    seq_len: 32
+  # RW-4 (GOV-012): episodes to semantic knowledge. EPI.SEM summarises the WP-18
+  # episodic store into semantic entries (nothing reads them yet). All OFF.
+  semantic:
+    every: 4             # segments between summaries
+    tau: 0.8             # cosine threshold of a cluster (placeholder)
+    min_support: 5
+    max_entries: 256
+    max_rows: 2000
+  # RW-2 (GOV-012): attention network. SAL.ATT turns the top-down logit bias on;
+  # PRED.ATT, CUR.ATT, BORE.ATT select its inputs. Needs attention_memory.enabled.
+  attention:
+    beta: 0.5            # logit units per z (placeholder)
+    bore_amp: 0.5        # largest attenuation of the bias by boredom
+    clip: 2.0
+    ema: 0.9
+    min_n: 20
+  # RW-5 (GOV-012): executive control. PFC.WM installs the working-memory gate on
+  # the attention window; the other lines read the planning phase. All OFF.
+  executive:
+    thr_z: -0.5          # admit a latent whose change is above this z (placeholder)
+    max_skip: 4          # escape path: admit at least every max_skip steps
+    ema: 0.9
+    min_n: 20
+  # RW-6 (GOV-012): strategy selection. SRL.STRAT_ENTRY turns the selector on (a
+  # bandit over four recipes of the WP-2 consolidation phase, credited by the
+  # drop of fresh-data loss); STRAT_ENTRY.SP / .INTL apply the recipe's spaced
+  # fraction / prioritised sampling; CALIB.SRL sets the exploration rate from the
+  # policy's calibration. Needs consolidation.enabled. All OFF.
+  strategy:
+    epoch_len: 4         # segments per credited epoch
+    epsilon: 0.1
+    spaced: 0.25         # spaced fraction of the "spaced" recipes
+    seq_len: 32
+    min_pulls: 1
+    ucb_c: 0.1
+    temperature: 0.1
+    seed: 0
+  # RW-7 (GOV-012): motivation to objective. ZPD.MOT scales the intrinsic weight by
+  # the curriculum's best-context progress (RewardMixer.frontier_gain); SAFE.CUR
+  # damps (never silences) the information-gain weight by risk. Others observe. OFF.
+  motivation:
+    amp: 0.3             # frontier gain = 1 + amp * clip(z of progress, -1, 1)
+    max_step: 0.05
+    ema: 0.9
+    min_n: 5
+    safe_amp: 0.5        # info-gain weight never below (1 - safe_amp) x base
+
+# WP-19 (GOV-009, GOV-011): representation, abstraction, robustness. BUILT,
+# UNTESTED. `enabled` adds a contrastive / predictive auxiliary loss on the
+# encoder embeddings (augmentation on copies of `rows` frames per step, never
+# on stored data, rewards or the novelty view key). It adds `repr_aux.*` weights
+# to the world model (a stored world model without them is a key mismatch at
+# resume). `extra_horizons` are appended to world_model.latent_horizons.
+representation:
+  enabled: false
+  mode: both            # contrastive | predictive | both
+  weight: 0.1
+  rows: 32
+  shift_pad: 4
+  jitter: 0.2
+  temperature: 0.2
+  proj_dim: 64
+  extra_horizons: []    # e.g. [8, 32]; empty = the world model's own horizons only
+
+# WP-8 (GOV-009, GOV-011): self-evaluation, competence, autonomy. BUILT,
+# UNTESTED. Per-context (= per stream) competence from learning progress and
+# action attribution; modulates ONLY registry coefficients it owns
+# (mixer.intrinsic_gain; explore.entropy_target_scale, read by WP-9's controller),
+# never a reward. Bounded to 1 +- gain_amp, slew-limited, EMA-smoothed.
+competence:
+  enabled: false
+  every_segments: 4
+  seq_len: 32
+  progress_ema: 0.3
+  history: 50
+  min_meas: 3           # measurements per context before anything is written
+  signal_ema: 0.2
+  modulate_mixture: true
+  gain_amp: 0.3         # intrinsic gain stays within [0.7, 1.3]
+  max_step: 0.05        # largest change per phase
+  modulate_exploration: false   # true: also publish the entropy-target scale (WP-9)
+  entropy_amp: 0.3
+  selfmodel_lr: 0.005
+  context_hold: 2       # updates after a curriculum context change that re-baseline the loss instead of scoring it (GOV-015 9.6)
+
+# WP-9 (GOV-009, GOV-011): adaptive optimisation and plasticity. BUILT,
+# UNTESTED. Every part has its own switch (all off). All coefficients it moves
+# are claimed in the registry as owner wp9_adaptive (policy.entropy_coef,
+# policy.lr_scale, wm.lr_scale); WP-8 owns different names (no fighting).
+adaptive_optim:
+  enabled: false
+  every_segments: 1
+  schedule:
+    enabled: false
+    policy: {kind: constant, horizon: 1000000, warmup: 0, floor: 0.1}   # constant|linear|cosine|warmup_cosine|warmup
+    world_model: {kind: constant, horizon: 1000000, warmup: 0, floor: 0.1}
+  entropy:                 # controller toward a target normalised entropy over VALID actions
+    enabled: false
+    target: 0.5            # fraction of ln(#valid actions); replaces the one-time boost
+    eta: 0.5
+    min_coef: 0.0001
+    max_coef: 0.1
+  return_norm:             # value-loss scale from a running return range (advantages untouched)
+    enabled: false
+    decay: 0.99
+    lo_q: 5.0
+    hi_q: 95.0
+    max_scale: 100.0
+  plasticity:              # dormant-unit monitor on the policy probe
+    enabled: false
+    tau: 0.025
+    refresh: false         # true: re-init dormant units' incoming weights, zero outgoing (ReDo-style)
+    max_frac: 0.05
+    min_dormant_frac: 0.1
+    probe_rows: 256
+  drift_response:          # separate switch: behaviour-drift alarm -> transient lr + entropy-target boost
+    enabled: false
+    hold_segments: 8
+    lr_boost: 1.5
+    entropy_boost: 1.3
+
+peer_observation:
+  enabled: false
+  window: 8
+  capacity: 512
+  seed: 0
+  hypothesis_z: 3.0        # a peer's view change this many sd above typical is logged as a hypothesis
+  context:
+    enabled: false         # true = append the peer-context vector (action_dim + 2) to the knowledge vector
+  predictor:
+    enabled: true          # (only runs when peer_observation.enabled)
+    hidden: 128
+    lr: 0.001
+    batch: 64
+    steps: 8
+  diversity:
+    bits: 12
+    window: 512
+
+# WP-3 (GOV-011): curriculum and learnability frontier. Built, untested, OFF.
+# A bandit over contexts (maps x skill levels the game interface offers)
+# rewarded by world-model learning progress and action attribution on each
+# stream's newest (never-trained-on) window; no extrinsic reward. Skill levels
+# come from the game YAML (`game.curriculum_skills`); maps from its source
+# list (never held-out ones). Forced exploration + an assignment-entropy floor.
+curriculum:
+  enabled: false
+  every_segments: 4        # a stream re-draws its context every N segments (staggered)
+  seq_len: 32
+  w_wm: 1.0
+  w_attr: 0.5
+  reward_clip: 1.0
+  value_decay: 0.8
+  ucb_c: 0.1
+  temperature: 0.1
+  epsilon: 0.1
+  min_pulls: 2             # forced exploration
+  entropy_floor: 0.6       # fraction of ln(arms), on probs and on realised assignments
+  entropy_window: 0.9
+  seed: 0
+
+# WP-2 (GOV-011), BUILT UNTESTED, OFF: a consolidation phase after PPO, with
+# its own optimizer (policy/consolidation.py). SIMPLEST ARM = distillation +
+# EWC with AWR off (no off-policy gradient):
+#   consolidation: {enabled: true, distill: {enabled: true},
+#                   regularizer: {kind: ewc}}
+# AWR (the only off-policy gradient) also needs store_policy_columns: true,
+# which adds three float columns to every replay row (12 bytes) and is
+# backward compatible with older saved buffers (they load as unknown).
+consolidation:
+  enabled: false
+  store_policy_columns: false
+  every_segments: 1
+  steps: 8
+  batch: 8
+  seq_len: 8
+  lr_scale: 0.1             # x the PPO learning rate
+  distill:
+    enabled: false
+    weight: 1.0
+    snapshot_every_segments: 5
+    max_snapshots: 4        # oldest and newest kept, the middle thinned
+  regularizer:
+    kind: none              # none | ewc  (synaptic intelligence not built)
+    lambda: 100.0
+    fisher_decay: 0.9
+    anchor_every_segments: 10
+    fisher_batches: 4
+  awr:
+    enabled: false
+    weight: 1.0
+    beta: 1.0
+    weight_clip: 20.0
+    is_clip: 0.0            # >0: truncated importance weight on stored logp
+    lambda: 0.95
+    critic_weight: 0.5
+  replay:
+    prioritized: false      # the buffer's own PER (world-model error)
+    spaced_fraction: 0.0    # share of each batch from the OLDEST part
+    old_after: 0.5          # "old" = age above this fraction of the span
+
+world_model:
+  recon_reduction: sum
+  inverse_input: embed
+  # WP-20 (GOV-016): the latent core. rssm = the amortised posterior (today's model). pc = predictive coding:
+  # the posterior is refined for pc_iters energy-descent steps (docs/research/res-010-predictive-coding-core.md).
+  # Both are kept until the WP-20 comparison (T1 wp20_pc_core) decides. Growth refuses core: pc.
+  core: rssm
+  pc_iters: 4
+  pc_step: 0.5
+  pc_weight: 1.0
+  pc_prior_precision: 1.0
+  # pc_learning: hebbian = the core's prior, posterior and generative networks learn by local error x activity
+  # updates (no gradient on their weights); backprop = ablation. The encoder, GRU, decoder and heads still use backprop.
+  pc_learning: hebbian
+  pc_hebbian_lr: 0.01
+  pc_hebbian_iters: 6
+  # GOV-016 11f: divide the generative head's target (the encoder's own embedding) by its running RMS. Off = as before.
+  pc_target_norm: false
+  # REPLAY CEILING, NOW TRUE (2026-10-18). The budget used to ignore each
+  # stream's first block and the proprio column, so the base "2 GB" let
+  # tiny x 8 hold 5.6 GB -- the replay every Stage C arm trained with. Now
+  # that 2 GB means 2 GB, this keeps that measured amount instead of cutting
+  # it 2.8x unmeasured. Doom-only on main: agent RSS 9.5 GB of 16 GB, steady.
+  # ENABLING MINECRAFT HERE ADDS TWO JAVA CLIENTS (~5 GB): lower this to 2
+  # first, or the box runs out of RAM (configs/minecraft_skybot.yaml budget).
+  buffer_growth:
+    max_ram_frac: 0.35        # the fraction caps first (0.15 x 16 GB = 2.4)
+    hard_max_gb: 5.5
+  # one optimizer kernel per step instead of several per tensor: +11 % frames
+  # trained per second on main at the same memory (rssm.py; CUDA only)
+  fused_adam: true
+
+# REAL-TIME CREDIT (2026-10-18, core/realtime_credit.py). A real-time game
+# (Doom, any Player game) never waits: step(a_t) returned a frame made by
+# a_{t-1}'s buttons and every learner paired it with a_t. On: transitions are
+# labelled with the EXECUTED action, the policy reads the state its action
+# will start in (one prior step through the held action), and a PPO row is
+# paid for the interval its own action drove. Synchronous games (Minecraft)
+# are unaffected either way. `legacy_replay`: what to do with a real-time
+# buffer saved before this fix (lagged labels): relabel | keep | drop.
+# `bootstrap_proprio`: the segment-end V(s_last) reads the body sense the
+# values it is compared with were computed with (it read zeros).
+realtime_credit:
+  enabled: true
+  policy_lookahead: true
+  ppo_delay: true
+  legacy_replay: relabel
+  bootstrap_proprio: true
+
+loop:
+  log_dir: ./brain_universal/logs          # checkpoints/ lives under this
+  checkpoint_wall_minutes: 0               # WP-17: also checkpoint every N real minutes (0 = off; each save writes the replay, use 30+)
+  # the base list + policy_features (lists REPLACE in the composer, so the
+  # whole list is repeated). policy_features (2026-10-17): the PPO policy's
+  # feature layers resume, its action head and critic start fresh, and
+  # exploration is boosted — only when world_model restored too (gated).
+  resume_components:
+    - world_model
+    - symbolic_decoder
+    - glue_layer
+    - knowledge_graph
+    - perception
+    - familiarity
+    - magnet
+    - replay_buffer
+    # policy_full (2026-10-18) REPLACES policy_features: the WHOLE policy
+    # (head, critic, Adam, mixer schedule) resumes when policy_meta.json
+    # shows the same reward fingerprint and every tensor fits; otherwise it
+    # falls back to the features-only path with the boost below. The bare
+    # `policy` stays refused by name.
+    - policy_full
+  policy_features_boost:     # the fallback path only (reward or shape changed)
+    factor: 3.0              # entropy coefficient x3 at the first update...
+    updates: 20              # ...decaying linearly to x1 over 20 PPO updates
+# PPO fixes found 2026-10-18 (why the Doom policy stayed ~97 % uniform);
+# every key here is off in configs/minecraft_skybot.yaml, so the legacy brain
+# is unchanged. See developmental_ai/policy/actor_critic.py and ASS-003
+# (docs/assurance/ass-003-policy-learning.md); tests/_ppo_fixes_smoke.py.
+policy:
+  logit_bound_valid_only: true   # the 5.0 logit range counts valid actions only
+  kl_check: rollout              # trust region on the whole rollout, not 32 rows
+  kl_check_every: 32             # minibatch steps between whole-rollout KL checks
+  hold_intrinsic_without_extrinsic: true   # no anneal toward a reward never earned
+  # every stream's PPO row paid by the same game-agnostic terms as stream 0
+  # (view novelty, imagination, habituation, empowerment, farm damp), each
+  # with its own state — 7 of 8 rows at tiny x 8 are scout rows
+  # (_scout_mixed_reward; ASS-003 docs/assurance/ass-003-policy-learning.md)
+  scouts_same_reward: true
+dream_training:
+  distill_min_weight: 0.05       # Adam cancels eff_w; below this, no step
+  distill_masked: true           # distil over executable primitives only
+skill_bank:
+  storage_dir: ./brain_universal/skill_bank
+infra:
+  # consequence/anticipation state is LEARNED and per-brain; decision traces
+  # and advisor files follow it here.
+  log_dir: brain_universal/infra
+  # the farm detector keys on the perceptual cell of the frame in view, not
+  # the engine's position cell (info.world.cell) — no engine read in the
+  # universal brain's reward (CLAUDE.md §10). Legacy default: engine.
+  farm_key: view
+  # WORLD-MODEL SIZE x STREAM COUNT (infra/autoscaler.py, 2026-10-17).
+  # RECOMMENDS ONLY — one `infra/autoscale:` line per segment and
+  # brain_universal/infra/autoscale.json; nothing grows or shrinks the model
+  # yet (stage D of docs/research/res-004-rssm-size-experiment.md). Holds while the latent is
+  # collapsed (z < z_min_nats), which is where the live model was measured.
+  autoscaler:
+    enabled: true
+    window: 8                 # segments of fresh-data loss before a verdict
+    cooldown_segments: 16
+    plateau_rel: 0.02         # < 2 % improvement over the window = plateau
+    gap_up: 1.15              # fresh/train at or below: out of room -> grow
+    gap_down: 1.5             # at or above: memorising -> more data
+    replay_ratio_high: 512    # frames trained per new frame (live is ~200)
+    z_min_nats: 1.0
+    vram_cap: 0.85
+    min_streams: 2            # compose refuses fewer (the unwired body, §4.2)
+    max_streams: 8
+    # STAGE D ACTUATION — OFF until host-proven. On: a non-hold decision
+    # writes runlogs/SCALE_RESTART and stops gracefully; the supervisor
+    # relaunches (kind=scale, not a crash) and the launcher resizes the brain
+    # with tools/grow_brain.py (grow exact + verified; shrink relearned and
+    # accepted only within tolerance) before composing the new size.
+    actuate: false
+    # WP-10 (GOV-009/GOV-011): ADR-005 order of response to compute pressure
+    # (model, then streams, then stepping rate). BUILT, UNTESTED. Off: the old
+    # shrink-else-fewer-streams fallback. Both arms of a comparison must carry
+    # the SAME values here (ADR-005 Amendment 2); frozen evaluations: actuate false.
+    adr005:
+      enabled: false
+      low_streams: null           # null = half of max_streams (4 of 8)
+      step_factor: 1.25           # multiplier on game time per decision per slowing
+      max_step_scale: 2.0
+      refusal_expiry_hours: 12    # a refused shrink stops counting as saturation after this
+      scale_file: ./brain_universal/scale.json
+      stepping_actuated: false    # no stepping-rate actuator exists: advice only
+foundation:
+  shadow:
+    root: brain_universal/foundation_shadow
+
+# ACTING NEVER WAITS FOR WORLD-MODEL TRAINING (docs/architecture/arc-004-universal-games.md §10 R2).
+# The trainer trains its own copy and publishes into the one SkyBot acts on
+# every `publish_every` gradient steps (and at the end of every block).
+async_wm:
+  enabled: true
+  inference_copy: true
+  publish_every: 4

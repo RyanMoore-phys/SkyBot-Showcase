@@ -1,0 +1,328 @@
+"""Run every offline suite. The entry point CI and the training host both use.
+
+TIERS, because they have different costs and different meanings:
+
+  unit      parts: shapes, bounds, neutrals, degenerate inputs. Seconds.
+            A failure here is a bug in a function.
+  contract  design: the arguments each wave was built on, with the measured
+            numbers in the docstrings. Tens of seconds (some train a tiny
+            model). A failure here means a DESIGN claim stopped holding.
+  legacy    the suites that predate this work and must keep passing —
+            they are the regression surface for everything older.
+
+Exit code is the number of failing suites, so a shell can gate on it.
+
+Run: PYTHONPATH=. python tests/run_all.py [unit|contract|legacy|all]
+"""
+import functools
+import os
+import subprocess
+import sys
+import time
+
+# FLUSH EVERY LINE (2026-10-04). Piped stdout (CI, `| tee`, nohup) is
+# block-buffered, so a multi-minute tier printed NOTHING until exit and a
+# healthy CI step looked hung. One line per suite, visible as it finishes.
+print = functools.partial(print, flush=True)  # noqa: A001
+
+sys.path.insert(0, ".")
+
+UNIT = [
+    "tests/unit/test_sensors_unit.py",
+    "tests/unit/test_world_model_unit.py",
+    "tests/unit/test_spatial_slots_unit.py",
+    # foundation/ (improvement plan, 2026-10-03)
+    "tests/unit/test_foundation_contracts_unit.py",
+    "tests/unit/test_foundation_geometry_unit.py",
+    "tests/unit/test_foundation_runtime_unit.py",
+    "tests/unit/test_foundation_experience_unit.py",
+    "tests/unit/test_foundation_mechanisms_unit.py",
+    "tests/unit/test_foundation_inference_unit.py",
+    "tests/unit/test_foundation_perception_unit.py",
+    "tests/unit/test_foundation_ab_unit.py",
+    "tests/unit/test_foundation_discovery_unit.py",
+    "tests/unit/test_foundation_selection_unit.py",
+    "tests/unit/test_foundation_planning_unit.py",
+    "tests/unit/test_exploration_unit.py",
+]
+
+CONTRACT = [
+    "tests/_learning_processes_smoke.py",
+    "tests/_infra_progress_curiosity_smoke.py",
+    "tests/_perspective_smoke.py",
+    "tests/_sensor_bus_smoke.py",
+    "tests/_oracle_isolation_smoke.py",
+    "tests/_spatial_memory_smoke.py",
+    "tests/_fine_aim_smoke.py",
+    "tests/_replay_sampling_smoke.py",
+    "tests/_config_keys_smoke.py",
+    # REGISTERED 2026-09-25. This file has existed for weeks and was listed
+    # NOWHERE — not here, not in ci.yml — so it had never run once. It gates
+    # the boredom gate, the daydream decay, the max_bonus clamp and
+    # "uncertainty must out-pay a dreamed jackpot"; all real contracts that
+    # were simply switched off. Same gap class as _vision_host_smoke.py.
+    "tests/_imagination_curiosity_smoke.py",
+    # foundation/ (improvement plan, 2026-10-03). Design claims for the new
+    # learning core; see each docstring for the stage it gates.
+    "tests/_foundation_contracts_smoke.py",
+    "tests/_foundation_geometry_smoke.py",
+    "tests/_foundation_baseline_smoke.py",
+    "tests/_collection_path_smoke.py",
+    "tests/_foundation_experience_smoke.py",
+    # 2026-10-09: store recovery pinned 3.58 GB of pymalloc arenas on main.
+    "tests/_store_recovery_memory_smoke.py",
+    "tests/_foundation_mechanisms_smoke.py",
+    "tests/_foundation_inference_smoke.py",
+    "tests/_foundation_perception_smoke.py",
+    "tests/_foundation_ab_smoke.py",
+    "tests/_foundation_transfer_smoke.py",
+    "tests/_foundation_discovery_smoke.py",
+    "tests/_foundation_selection_smoke.py",
+    "tests/_foundation_planning_smoke.py",
+    "tests/_foundation_shadow_smoke.py",
+    # Independent verifier: asserts the A/B PROTOCOL ran (verdicts, no
+    # silent arm failures), never a winner. Results live in
+    # experiments/foundation_ab/.
+    "tests/_foundation_ab_verify_smoke.py",
+    "tests/_foundation_ab_verify9_11_smoke.py",
+    # node2 brain mirror (scripts/brain_mirror/): pull, verify, retention,
+    # latch escapes. Needs only rsync + stdlib.
+    "tests/_brain_mirror_smoke.py",
+    # tools/shadow_report.py: reads a live shadow EvidenceStore read-only.
+    "tests/_foundation_shadow_report_smoke.py",
+    # 2026-10-04 live incident: skill copies bypassed the logit-spread cap.
+    "tests/_skill_logit_cap_smoke.py",
+    # 2026-10-04 live incident: LP paid fabricated progress on correlated
+    # (near-identical) visits — micro-turn 45% of actions, 0 blocks in 13 h.
+    "tests/_lp_correlated_gate_smoke.py",
+    # Public repo: no LAN/tailnet IPs or credentials in anything `git add -A`
+    # would commit; local-only files stay ignored.
+    "tests/_no_secrets_smoke.py",
+    # 2026-10-07: agent.close() was never called -> abort at every exit.
+    "tests/_clean_exit_smoke.py",
+    # Read-only RAM/VRAM census (infra/memory_census.py) + replay accounting.
+    "tests/_memory_census_smoke.py",
+    # 2026-10-07: replay save/load no longer double the buffer in RAM
+    # (the save at stop was the last thing before the host froze).
+    "tests/_replay_save_memory_smoke.py",
+    # 2026-10-18: the replay budget counts every byte (8 Doom streams held
+    # 5.6 GB under a "2.0 GB" budget on main).
+    "tests/_replay_budget_smoke.py",
+    # 2026-10-18: logs/mc_*.log are capped (6.1 GB of client stdout on main).
+    "tests/_cap_log_smoke.py",
+    # 2026-10-18: real-time streams label each transition with the action that
+    # DROVE it and PPO pays each decision for its own interval.
+    "tests/_realtime_credit_smoke.py",
+    # 2026-10-18: why the Doom policy stayed ~97 % uniform — the KL trust
+    # region, the masked logit bound, the reward mixer, distillation, I(S;A).
+    "tests/_ppo_fixes_smoke.py",
+    # Telemetry (2026-10-07): exploration / stuck metrics + 50k-cell latch.
+    "tests/_exploration_smoke.py",
+    # Ops (2026-10-07): exit capture, incident bundles, crash-loop guard.
+    "tests/_incident_bundle_smoke.py",
+    # 2026-10-09: no Java client outlives its env (2 orphans, ~2.4 GB, on main).
+    "tests/_client_leak_smoke.py",
+    # 2026-10-11: one universal brain for every game (docs/architecture/arc-004-universal-games.md).
+    "tests/_universal_smoke.py",
+    "tests/_rewind_smoke.py",
+    "tests/_universal_loop_smoke.py",
+    "tests/_vizdoom_smoke.py",
+    # 2026-10-11: the viewer plays the game at its own speed (every tic).
+    "tests/_viewer_playback_smoke.py",
+    # 2026-10-11: real-time games keep being played while SkyBot learns (R3).
+    "tests/_standby_actor_smoke.py",
+    # 2026-10-13: the Player Adapter — any game via screen/speakers/keys/mouse.
+    "tests/_player_adapter_smoke.py",
+    # 2026-10-14: Steam + browser launchers; installs from the LAN game depot.
+    "tests/_launchers_smoke.py",
+    "tests/_game_install_smoke.py",
+    # 2026-10-14: dead Doom/Player streams are rebuilt; orphaned seats cleared.
+    "tests/_dead_stream_smoke.py",
+    # 2026-10-17: no engine-read rewards outside Minecraft (coverage was 85%).
+    "tests/_no_engine_reward_smoke.py",
+    # 2026-10-17: autoscaler decisions (size x streams), recommendations only.
+    "tests/_autoscaler_smoke.py",
+    # 2026-10-17: the world model's latent must carry information.
+    "tests/_posterior_collapse_smoke.py",
+    # 2026-10-17: stage D — the brain grows in place, shrinks only within tolerance.
+    "tests/_growth_smoke.py",
+    # 2026-10-17: PPO warm start — features resume, action head fresh, explore.
+    "tests/_policy_features_smoke.py",
+    # 2026-10-17: learned-skill telemetry is honest (empty bank != latch).
+    "tests/_skills_gate_smoke.py",
+    # Telemetry: PPO/WM/LP/replay stat producers, byte-identical training.
+    "tests/_ml_stats_smoke.py",
+    # node1 ingest tables + Grafana dashboards/alerts query drift check.
+    "tests/_telemetry_ingest_smoke.py",
+    # learning.jsonl: signed reward parts reconcile with the mixed reward.
+    "tests/_learning_telemetry_smoke.py",
+    # The unattended test campaign (tools/campaign.py, ASS-013): ordering, pause/resume, gates,
+    # reboot recovery, host exclusivity, frozen code. Fake stages only; starts no trainer.
+    "tests/_campaign_smoke.py",
+    # GOV-014 corrective items: guard polarity (F-13), consolidation strength (F-04), diverse source phase (WP-6).
+    "tests/_guard_polarity_smoke.py",
+    "tests/_consolidation_strength_smoke.py",
+    "tests/_wp6_diversity_smoke.py",
+    # GOV-015 corrective items: finiteness guards (F-01..F-28 G class), controller re-arm and stale-state release (F-09, F-25).
+    "tests/_nonfinite_guards_smoke.py",
+    "tests/_latch_rearm_smoke.py",
+    # GOV-015 9.6: WP-8 does not score a curriculum context change as lost progress.
+    "tests/_context_hold_smoke.py",
+    # WP-20 (GOV-016): the predictive-coding latent core is a drop-in for the RSSM core.
+    "tests/_predictive_coding_smoke.py",
+    "tests/_pc_pilot_gate_smoke.py",
+    "tests/_pc_pilot2_smoke.py",
+    "tests/_pc_target_norm_smoke.py",
+    "tests/_arm_boot_check_smoke.py",
+    "tests/_pc_loop_smoke.py",
+    "tests/_report_tools_smoke.py",
+]
+
+# These need the full stack (gymnasium / minerl) and so only run on the training host.
+# ---- KEPT IN LOCKSTEP WITH .github/workflows/ci.yml (2026-09-20) ----
+# This list was hand-written and had SIX entries while CI gated on
+# THIRTEEN, so a push failed on `_reward_fixes_smoke` — a suite the
+# local runner had never executed. A runner that is a subset of CI is
+# worse than no runner: it reports ALL SUITES PASS and means something
+# narrower than the reader assumes.
+#
+# The contract in tests/_config_keys_smoke.py's spirit applies here
+# too — `_ci_parity` below fails if the two lists drift apart again.
+LEGACY = [
+    "tests/_reward_fixes_smoke.py",
+    "tests/_centering_drive_smoke.py",
+    "tests/_resume_smoke.py",
+    "tests/_stall_fixes_smoke.py",
+    "tests/_no_scripted_skills_smoke.py",
+    "tests/_gui_farm_smoke.py",
+    "tests/_throughput_wave_smoke.py",
+    "tests/_data_diet_smoke.py",
+    "tests/_capacity_wave_smoke.py",
+    "tests/_anticipation_smoke.py",
+    "tests/_learning_rate_wave_smoke.py",
+    "tests/_skybot_boot_smoke.py",
+    "tests/_metrics_sink_smoke.py",
+    # Loop-detector damp (now applied to stream-0 intrinsic too, 2026-10-04).
+    # Runner-only (not in ci.yml's core list); runs wherever gymnasium does.
+    "tests/_farm_damping_smoke.py",
+]
+
+
+# The categorical system tests (GOV-013 / ASS-012: CT-01..08 within groups, BND-01..07 between
+# them). The files do not exist yet; the campaign's `cat_harness` stage runs this tier and stays
+# BLOCKED (not failed) until they do. Not part of `all`: it is the host-side integration layer.
+CATEGORICAL = sorted(
+    os.path.join("tests", f) for f in os.listdir("tests")
+    if f.startswith("_categorical_") and f.endswith("_smoke.py")) if os.path.isdir("tests") else []
+
+
+def run(path: str, timeout: int = 900):
+    if not os.path.isfile(path):
+        return ("MISSING", 0.0, "")
+    t0 = time.time()
+    env = dict(os.environ, PYTHONPATH=".")
+    try:
+        p = subprocess.run([sys.executable, path], capture_output=True,
+                           text=True, timeout=timeout, env=env)
+    except subprocess.TimeoutExpired:
+        return ("TIMEOUT", time.time() - t0, "")
+    dt = time.time() - t0
+    out = (p.stdout or "") + (p.stderr or "")
+    if p.returncode != 0:
+        # ---- "COULD NOT RUN" IS NOT "FAILED" (2026-09-20) ---------------
+        # The legacy suites import the full env stack. On a dev Mac without
+        # gymnasium/minerl they abort at import, and reporting that as FAIL
+        # is a lie in the opposite direction from the one this runner was
+        # just fixed for: ten red lines that mean nothing, which trains the
+        # reader to ignore red. They DO run on CI and the training host, where the
+        # deps exist, so the honest report is SKIP-with-a-reason here and a
+        # real result there.
+        #
+        # Deliberately narrow: only a missing HEAVY dependency at import
+        # counts. An AssertionError, or a missing dep the repo owns, is
+        # still a failure.
+        for dep in ("gymnasium", "minerl", "minedojo", "crafter", "minigrid",
+                    "vizdoom"):
+            if f"No module named '{dep}'" in out:
+                return (f"SKIP:{dep}", dt, out)
+        return ("FAIL", dt, out)
+    return ("PASS", dt, out)
+
+
+def _ci_parity():
+    """CI and this runner must gate on the same suites.
+
+    A local runner that omits suites CI enforces is how a green local run
+    turns into a red push — which is exactly how `_reward_fixes_smoke`
+    slipped through. Read CI's list rather than trusting a copy.
+    """
+    import re
+    path = os.path.join(".github", "workflows", "ci.yml")
+    if not os.path.isfile(path):
+        return []
+    ci = open(path).read()
+    if "TESTS=(" not in ci:
+        return []
+    block = ci[ci.index("TESTS=("):]
+    block = block[:block.index("\n            )")] if "\n            )" in block else block
+    want = set(re.findall(r"tests/_\w+\.py", block))
+    # Compare against EVERY tier: a CI suite registered under `contract`
+    # is gated by `all`, and flagging it as drift trains the reader to
+    # ignore this warning.
+    return sorted(want - set(UNIT + CONTRACT + LEGACY))
+
+
+def main(which: str = "all") -> int:
+    groups = {"unit": UNIT, "contract": CONTRACT, "legacy": LEGACY,
+              "categorical": CATEGORICAL}
+    if which == "all":
+        order = [("unit", UNIT), ("contract", CONTRACT), ("legacy", LEGACY)]
+    else:
+        order = [(which, groups[which])]
+
+    if which == "categorical" and not CATEGORICAL:
+        print("NO categorical tests exist yet (GOV-013 CS-1/CS-2 not built): this is not a pass.")
+        return 2
+
+    drift = _ci_parity()
+    if drift:
+        print(f"\n!! LOCAL RUNNER IS BEHIND CI — not gating on: {drift}")
+        print("   Add them to LEGACY, or a green local run means less than "
+              "it says.")
+    failures, missing, skipped = [], [], []
+    for label, paths in order:
+        print(f"\n=== {label} ===")
+        for path in paths:
+            status, dt, out = run(path)
+            name = os.path.basename(path)
+            print(f"  {status:8s} {dt:6.1f}s  {name}")
+            if status == "MISSING":
+                missing.append(name)
+            elif status.startswith("SKIP:"):
+                skipped.append((name, status.split(":", 1)[1]))
+            elif status != "PASS":
+                failures.append((name, out))
+
+    if missing:
+        print(f"\nMISSING (not run): {', '.join(missing)}")
+    if skipped:
+        deps = sorted({d for _n, d in skipped})
+        print(f"\nSKIPPED — {len(skipped)} suite(s) need {', '.join(deps)}, "
+              f"which this machine does not have. They RUN on CI and the training host; "
+              f"a green result here does not cover them.")
+    if failures:
+        print(f"\n{len(failures)} suite(s) FAILED\n")
+        for name, out in failures:
+            print(f"---- {name} ----")
+            print("\n".join(out.strip().splitlines()[-25:]))
+            print()
+    else:
+        cover = "ALL SUITES PASS"
+        if skipped:
+            cover += f" (of {len(skipped)} fewer than CI — see SKIPPED above)"
+        print(f"\n{cover}")
+    return len(failures)
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1] if len(sys.argv) > 1 else "all"))

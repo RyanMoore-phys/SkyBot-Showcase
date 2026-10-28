@@ -1,0 +1,449 @@
+---
+config:
+  theme: neutral
+  themeVariables:
+    fontSize: 14px
+  flowchart:
+    htmlLabels: true
+    curve: basis
+    nodeSpacing: 28
+    rankSpacing: 46
+---
+flowchart LR
+%% =========================================================================
+%% SkyBot learning dependency map
+%% Document control: asset, not a controlled docs/ record (docs/README.md §2
+%% reserves docs/ IDs for authored documents). Custodian: repository
+%% maintainer. State: Active reference, written 2026-10-20 from the
+%% implemented code and the records ASS-003, ASS-006, RES-001, RES-004 and
+%% RES-005. Git history is the revision history. If the code and this map
+%% disagree, the code governs: update this file in the same change.
+%%
+%% SCOPE: only what SKYBOT LEARNS FROM or LEARNS WITH. Every learner, every
+%% signal that trains one, every store, every gate, every config switch that
+%% changes learning, and the persistence that carries learning across
+%% launches. Evaluation-only items are drawn dotted and never feed back
+%% (docs/decisions/adr-002-evaluator-state-is-not-a-learning-input.md).
+%%
+%% HOW TO READ: solid arrow = data or signal flows (label says which);
+%% thick arrow = the main learning loop; dotted arrow = measurement only, or
+%% a config switch acting on a component; dashed box = not built yet.
+%% Not claimed here: that any dependency works well. Live status is in ASS-003.
+%% =========================================================================
+
+%% ---------------------------------------------------------------- GAMES
+subgraph ENV["1. Games and timing"]
+  direction TB
+  vz["ViZDoom adapter<br/>real-time clock thread, 35 tics per s"]
+  pl["Player adapter<br/>real Chocolate Doom: screen capture + keys"]
+  mc["MineRL adapter<br/>synchronous, one action per step"]
+  uni["UniversalControllerWrapper<br/>48 action slots + per-game valid mask"]
+  held["Held buttons<br/>atomic pair (vector, slot), tagged per tic"]
+  exe["Executed action per interval<br/>executed_action, held_action, purity, decision_tics"]
+  life["Life boundaries<br/>death, exit, rewind, restart, heal, standby gap"]
+  stuck["Stuck watch + rewind ring<br/>reward-stagnation verdict"]
+end
+
+%% -------------------------------------------------------------- SENSING
+subgraph SENSE["2. Senses (inputs a player has)"]
+  direction TB
+  frame["Frame o_t<br/>3x128x128 pixels"]
+  bus["Sensor bus<br/>proprio 5170 | screen_fx | dead reckoning | motion | light | sky | tempo | audio | fovea"]
+  guard["RED sensor guard<br/>engine-only fields never enter the brain"]
+  viewkey["Frozen view encoder<br/>_view_key, the agent's own view embedding"]
+end
+
+%% --------------------------------------------------------- REAL-TIME CREDIT
+subgraph RTC["3. Real-time credit (core/realtime_credit.py)"]
+  direction TB
+  rtx["_rt_exec<br/>swap chosen for executed action"]
+  look["_acting_latent<br/>policy lookahead: imagine_step posterior with held action"]
+  cdelay["CreditDelay<br/>pays each decision the next interval's reward"]
+  relabel["Replay relabel<br/>new[t] = old[t-1] for unstamped real-time buffers"]
+  stamp["action_semantics stamp<br/>executed"]
+  standby["Standby actor<br/>plays while the loop trains, stores nothing"]
+end
+
+%% ------------------------------------------------------------ WORLD MODEL
+subgraph WM["4. World model (world_model/rssm.py, DreamerV3-style)"]
+  direction TB
+  enc["Encoder<br/>hidden 128 at tiny"]
+  rssm["RSSM state<br/>h deterministic GRU + z categoricals"]
+  post["Posterior q(z | h, embed)"]
+  prior["Prior p(z | h)"]
+  kl["KL(post || prior)<br/>free-nats floor, z-info reported unclamped"]
+  dec["Decoder, reconstruction SUMMED over pixels"]
+  rew["Reward head"]
+  cont["Continue head"]
+  flow["Flow head<br/>motion from consecutive frames"]
+  inv["Inverse-dynamics head<br/>predicts a_t from embeddings of o_t, o_t+1"]
+  lat["Latent-horizon heads<br/>horizons 4 and 16"]
+  symdec["Symbolic decoder<br/>off in Doom"]
+  align["causal_align<br/>shifts actions one step"]
+  infer["Inference copy<br/>published every 4 gradient steps"]
+  trainer["Async WM trainer<br/>fused Adam, bf16, grad checkpoint"]
+  wlock["World-model param lock"]
+  imagine["imagine_step / imagine_trajectory"]
+end
+
+%% ---------------------------------------------------------------- REPLAY
+subgraph REP["5. Experience store (world_model/replay_buffer.py)"]
+  direction TB
+  rbuf["MultiStreamReplayBuffer<br/>one ReplayBuffer per stream"]
+  cols["Columns: observations uint8 | actions | rewards | dones | restarts | priorities | proprio"]
+  budget["MEMORY_BUDGET<br/>charge first block, request every grow, bytes_per_row"]
+  newest["newest_sequence<br/>never-trained window, fresh-data loss"]
+  samp["Sequence sampler<br/>prefetch, terminal fraction, prioritised"]
+  persist["Replay persist<br/>save once per stop, relabel on load, merge a cut stream"]
+end
+
+%% -------------------------------------------------------------- CURIOSITY
+subgraph CUR["6. Intrinsic signals (curiosity/, infra/)"]
+  direction TB
+  icm["ICM forward model<br/>trained every step"]
+  lp["Learning-progress reward<br/>median/std normalised, clipped"]
+  gate["Action-attribution gate<br/>prediction with a_t vs null action"]
+  expl["Exploration ratio<br/>scales LP by mastered skills"]
+  epi["Episodic novelty<br/>kNN over this life's views, weight 0.07"]
+  epimem["Per-stream per-life view memory<br/>k=10, capacity 2000, resets at life boundary"]
+  vnov["View novelty<br/>hash buckets, 1/sqrt n"]
+  imagc["Imagination curiosity<br/>rollouts from the current state"]
+  emp["Empowerment<br/>gamma Phi' - Phi every 25 steps"]
+  hab["Habituation and boring-view factor"]
+  farm["Farm detector and damp<br/>keyed on the perceptual cell of the view"]
+  reach["Reach, persistence, gaze-level potentials<br/>about 0 in Doom"]
+  covg["Coverage and gaze<br/>weight 0 in the universal brain"]
+  mixer["RewardMixer<br/>intrinsic 0.7 / extrinsic 0.3, return-ratio cap"]
+  ext["Extrinsic reward<br/>0 in Doom by design"]
+  scoutr["Scout reward<br/>same function as stream 0, per-stream state"]
+end
+
+%% ----------------------------------------------------------------- POLICY
+subgraph POL["7. Policy and PPO (policy/actor_critic.py)"]
+  direction TB
+  cond["Knowledge conditioner<br/>gates the knowledge vector"]
+  aug["_augment<br/>latent + proprio + gated knowledge"]
+  actor["Actor trunk<br/>actor.shared, action head 72 = 48 slots + 24 options"]
+  critic["Critic<br/>symlog value"]
+  mask["Valid-action mask<br/>option executor ANDs per-stream mask"]
+  bound["Logit range bound 5.0<br/>over valid actions only"]
+  ent["Entropy bonus 0.03<br/>x3 boost after a features-only resume"]
+  roll["Rollout buffer<br/>obs feats, action, log-prob, value, reward, done"]
+  gae["GAE<br/>gamma 0.995, lambda 0.95, per stream, SMDP-aware"]
+  boot["Bootstrap last value<br/>with proprio and lookahead feats"]
+  advn["Advantage normalise and winsorise at 5"]
+  ppo["PPO update<br/>minibatch 32, clip 0.2, lr 3e-4, grad clip 0.5"]
+  klc["KL trust region<br/>whole-rollout k3 vs target_kl 0.05, freezes actor"]
+  stats["Update stats<br/>explained variance, clip fraction, I(S;A), probe KL, grad norm, trip point"]
+end
+
+%% ----------------------------------------------------- OPTIONS AND SKILLS
+subgraph SKL["8. Options, goals and knowledge"]
+  direction TB
+  optx["Option executor<br/>SMDP, tau, masks, learned slots"]
+  bank["Skill bank<br/>byte copies of the shared policy"]
+  goals["Achievement goals<br/>mint on extrinsic spike, repeatability gate"]
+  probe["Probation and competence predictor"]
+  kg["Knowledge graph<br/>asserted and retracted facts"]
+  glue["Glue layer and knowledge integrator<br/>knowledge vector"]
+  vlm["VLM symbolizer and vision magnet<br/>off for Doom"]
+  skdisc["Skill discovery: surprise x agency, effect keys, probation<br/>planned, RES-005"]
+end
+
+%% --------------------------------------------------------------- DREAMING
+subgraph DRM["9. Dreaming"]
+  direction TB
+  dactor["Dream actor-critic<br/>trained on imagined rollouts"]
+  dtrain["Dream training<br/>batches per segment, activates after 2 segments"]
+  distill["Dream-to-real distillation<br/>skipped below min weight, masked to valid actions"]
+  prosp["Prospection and imagination policy<br/>_imagination_policy_fn, zero knowledge for scouts"]
+end
+
+%% -------------------------------------------------- SCALE AND PERSISTENCE
+subgraph PER["10. Scale, growth and persistence"]
+  direction TB
+  scale["scale.json and SIZE_LADDER<br/>tiny 256/16/16, small, medium, live"]
+  initsc["universal.initial_scale<br/>new brain starts tiny x 8"]
+  auto["Autoscaler<br/>fresh-vs-train gap, plateau, z-info, VRAM, latency; advice only"]
+  grow["grow_brain.py + growth.py<br/>function-preserving WM and policy growth"]
+  restart["SCALE_RESTART + supervisor kind=scale"]
+  ckpt["Checkpoint<br/>world_model, policy, optimizer, mixer, meta"]
+  fprint["Reward fingerprint<br/>hash of reward-relevant config"]
+  pfull["policy_full resume<br/>whole policy if fingerprint and shapes match"]
+  pfeat["policy_features resume<br/>feature layers only + entropy boost"]
+  refuse["Bare policy / dream_actor / curiosity<br/>refused by name"]
+  life2["lifetime_timesteps<br/>survives relaunches"]
+  super["Launcher and supervisor<br/>compose config, relaunch, crash-loop guard"]
+  buf2["Memory ceiling<br/>buffer_growth 5.5 GB universal"]
+end
+
+%% ----------------------------------------------------- EVALUATION ONLY
+subgraph EVAL["11. Evaluation only (never feeds learning)"]
+  direction TB
+  evalr["Doom evaluator<br/>kills, items, secrets, deaths, exits, map"]
+  oracle["Oracle dead-reckoning drift and true position"]
+  lagp["Replay lag probe<br/>shift -1 / 0 / +1"]
+  ledger["Reward ledger and census<br/>shares, farm flags"]
+  telem["Learning telemetry<br/>per-segment learning.jsonl"]
+  mcc["Minecraft mine_* counters<br/>answer key for skill discovery"]
+  asspt["ASS-003 protocol<br/>OFF vs ON arms"]
+end
+
+%% ------------------------------------------------------- CONFIG SWITCHES
+subgraph CFG["12. Config switches that change learning"]
+  direction TB
+  c_rt["realtime_credit.enabled, policy_lookahead, ppo_delay, legacy_replay, bootstrap_proprio"]
+  c_kl["policy.kl_check, kl_check_every, target_kl"]
+  c_lb["policy.logit_bound_valid_only, logit_range"]
+  c_hold["policy.hold_intrinsic_without_extrinsic"]
+  c_sc["policy.scouts_same_reward"]
+  c_dd["dream_training.distill_min_weight, distill_masked"]
+  c_farm["infra.farm_key view | engine"]
+  c_wm["world_model.recon_reduction sum, inverse_input embed, fused_adam"]
+  c_ep["curiosity.episodic_weight, episodic k and capacity"]
+  c_res["loop.resume_components, policy_features_boost"]
+  c_bg["world_model.buffer_growth"]
+  c_as["infra.autoscaler.actuate"]
+end
+
+%% ======================================================== MAIN LOOP (thick)
+uni ==>|"chosen action a_t"| held
+held ==>|"tic tags"| exe
+vz ==>|"frames, game vars"| frame
+pl ==>|"screen grab, audio"| frame
+mc ==>|"pixels, inventory"| frame
+frame ==> enc
+bus ==> enc
+enc ==> post
+post ==> rssm
+rssm ==>|"latent h,z"| look
+look ==>|"state the action starts in"| aug
+aug ==> actor
+mask ==> actor
+bound ==> actor
+actor ==>|"sample a_t"| uni
+rbuf ==>|"sequences"| samp
+samp ==>|"training batches"| trainer
+trainer ==>|"updated weights"| infer
+infer ==>|"acting belief"| rssm
+roll ==> gae
+gae ==> advn
+advn ==> ppo
+ppo ==>|"updated weights"| actor
+
+%% ------------------------------------------------------------- ENV details
+vz --> held
+pl --> held
+mc -->|"synchronous: executed = chosen"| exe
+vz --> bus
+pl --> bus
+mc --> bus
+vz --> life
+pl --> life
+mc --> life
+stuck -->|"truncate and rewind"| life
+exe -->|"executed_action"| rtx
+life -->|"done, restart flag, boundary"| cdelay
+life -->|"reset view memory"| epimem
+life -->|"cut replay sequence"| rbuf
+life -->|"cut credit"| cdelay
+bus --> guard
+guard -->|"allowed senses"| enc
+frame --> viewkey
+viewkey --> epimem
+viewkey --> farm
+viewkey --> vnov
+standby --> rssm
+
+%% ---------------------------------------------------------- credit routing
+rtx -->|"executed action"| icm
+rtx -->|"executed action"| gate
+rtx -->|"executed action"| rbuf
+rtx -->|"executed action"| post
+rtx -->|"executed action"| emp
+rtx --> flow
+cdelay -->|"delayed rows"| roll
+cdelay --> boot
+look --> boot
+stamp --> persist
+relabel --> persist
+exe --> standby
+standby -.->|"gap marker"| cdelay
+
+%% ------------------------------------------------------------ world model
+post --> kl
+prior --> kl
+rssm --> prior
+kl -->|"trains posterior and prior"| trainer
+rssm --> dec
+rssm --> rew
+rssm --> cont
+rssm --> flow
+rssm --> lat
+rssm --> symdec
+enc --> inv
+inv -->|"needs correct labels"| trainer
+dec -->|"reconstruction loss"| trainer
+rew -->|"reward loss"| trainer
+cont -->|"continue loss"| trainer
+flow -->|"flow loss"| trainer
+lat -->|"horizon loss"| trainer
+align --> trainer
+wlock --> infer
+wlock --> trainer
+rssm --> imagine
+imagine --> dactor
+imagine --> imagc
+
+%% ------------------------------------------------------------------ replay
+exe -->|"labelled transition"| rbuf
+frame --> cols
+bus --> cols
+cols --> rbuf
+budget --> rbuf
+rbuf --> newest
+rbuf --> samp
+newest -->|"fresh-data loss"| auto
+persist <--> rbuf
+rbuf -->|"restored experience"| trainer
+
+%% -------------------------------------------------------- curiosity wiring
+frame --> icm
+icm --> lp
+gate -->|"x"| lp
+expl -->|"x"| lp
+lp -->|"base term"| mixer
+epimem --> epi
+epi -->|"0.07 x bonus"| mixer
+vnov -->|"novelty"| mixer
+imagc -->|"bonus"| mixer
+emp -->|"potential step"| mixer
+hab -->|"damp"| mixer
+farm -->|"damp"| mixer
+reach --> mixer
+covg -.->|"weight 0"| mixer
+ext --> mixer
+mixer -->|"mixed reward per step"| cdelay
+scoutr -->|"same terms, own state"| cdelay
+mixer --> scoutr
+rew -.->|"reward head predicts"| imagc
+rssm --> icm
+
+%% --------------------------------------------------------- policy wiring
+glue --> cond
+kg --> glue
+cond --> aug
+bus -->|"proprio"| aug
+critic --> roll
+actor --> roll
+aug --> critic
+roll --> ppo
+boot --> gae
+ent --> ppo
+klc --> ppo
+ppo --> klc
+ppo --> stats
+critic --> stats
+
+%% ------------------------------------------------------ options and skills
+optx -->|"offers learned slots"| mask
+bank --> optx
+goals -->|"mint"| bank
+probe --> bank
+mixer -->|"extrinsic spike"| goals
+skdisc -.->|"replaces the spike trigger"| goals
+skdisc -.->|"effect keys"| bank
+vlm -.-> kg
+actor -->|"policy copy"| bank
+
+%% ----------------------------------------------------------------- dreaming
+dactor --> dtrain
+dtrain --> distill
+distill -->|"gradient step on actor"| actor
+prosp --> imagc
+prosp --> dactor
+actor --> prosp
+
+%% --------------------------------------------------- scale and persistence
+initsc --> scale
+scale -->|"builds at launch"| enc
+auto -->|"decision"| restart
+restart --> grow
+grow --> scale
+grow -->|"grows latent-input columns"| actor
+grow -->|"grows"| rssm
+ckpt --> pfull
+ckpt --> pfeat
+fprint --> pfull
+fprint --> pfeat
+pfull -->|"actor, critic, optimizer, mixer"| actor
+pfull --> mixer
+pfeat -->|"features only"| actor
+pfeat --> ent
+refuse -.-> pfull
+life2 -->|"event stamps and autoscaler step"| auto
+super --> ckpt
+super --> scale
+buf2 --> budget
+ppo --> ckpt
+trainer --> ckpt
+
+%% ----------------------------------------------------------- evaluation only
+evalr -.->|"counters only"| asspt
+oracle -.-> asspt
+lagp -.->|"reads saved replay"| persist
+lagp -.-> asspt
+stats -.-> telem
+mixer -.-> ledger
+farm -.-> ledger
+telem -.-> asspt
+mcc -.->|"grades, never an input"| skdisc
+evalr -.->|"never fed back"| mixer
+
+%% ----------------------------------------------------------- config acts on
+c_rt -.-> rtx
+c_rt -.-> look
+c_rt -.-> cdelay
+c_rt -.-> relabel
+c_kl -.-> klc
+c_lb -.-> bound
+c_hold -.-> mixer
+c_sc -.-> scoutr
+c_dd -.-> distill
+c_farm -.-> farm
+c_wm -.-> dec
+c_wm -.-> inv
+c_wm -.-> trainer
+c_ep -.-> epi
+c_res -.-> pfull
+c_res -.-> pfeat
+c_bg -.-> budget
+c_as -.-> restart
+
+%% ------------------------------------------------------------------ styling
+classDef env fill:#e8f1ff,stroke:#2b5fa8,color:#10243f
+classDef sense fill:#eefaf0,stroke:#2f7d3b,color:#10301a
+classDef credit fill:#fff3e0,stroke:#b26a00,color:#3a2400
+classDef wm fill:#f3ecff,stroke:#6a3fb0,color:#25104a
+classDef store fill:#eef6f7,stroke:#2a7f8f,color:#0d2f36
+classDef cur fill:#fff0f3,stroke:#b03060,color:#400e22
+classDef pol fill:#fffbe0,stroke:#9a8300,color:#352d00
+classDef skill fill:#f0f4ea,stroke:#5c7a2a,color:#1d2a0c
+classDef persist fill:#f2f2f2,stroke:#555,color:#1d1d1d
+classDef evalonly fill:#ffffff,stroke:#888,stroke-dasharray:4 3,color:#333
+classDef cfg fill:#fafafa,stroke:#999,color:#333
+classDef planned fill:#ffffff,stroke:#b03060,stroke-dasharray:6 4,color:#400e22
+
+class vz,pl,mc,uni,held,exe,life,stuck env
+class frame,bus,guard,viewkey sense
+class rtx,look,cdelay,relabel,stamp,standby credit
+class enc,rssm,post,prior,kl,dec,rew,cont,flow,inv,lat,symdec,align,infer,trainer,wlock,imagine wm
+class rbuf,cols,budget,newest,samp,persist store
+class icm,lp,gate,expl,epi,epimem,vnov,imagc,emp,hab,farm,reach,covg,mixer,ext,scoutr cur
+class cond,aug,actor,critic,mask,bound,ent,roll,gae,boot,advn,ppo,klc,stats pol
+class optx,bank,goals,probe,kg,glue,vlm skill
+class dactor,dtrain,distill,prosp skill
+class scale,initsc,auto,grow,restart,ckpt,fprint,pfull,pfeat,refuse,life2,super,buf2 persist
+class evalr,oracle,lagp,ledger,telem,mcc,asspt evalonly
+class c_rt,c_kl,c_lb,c_hold,c_sc,c_dd,c_farm,c_wm,c_ep,c_res,c_bg,c_as cfg
+class skdisc planned

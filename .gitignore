@@ -1,0 +1,154 @@
+# ---------------------------------------------------------------------------
+# Developmental AI — what does NOT belong in version control.
+#
+# Context (2026-08-01): the repo directory is 7.8 GB, of which the actual
+# source is 4.3 MB. `git add` was once run before this file existed, staging
+# 10,000 files (9,393 of them under venv/) and leaving 2.39 GB of loose
+# objects in .git. NOTE: a .gitignore never retroactively unstages anything —
+# the index has to be cleared and re-added for this file to take effect.
+# ---------------------------------------------------------------------------
+
+# ---- environments / build artifacts ----
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# ---- OS noise ----
+.DS_Store
+Thumbs.db
+
+# ---- SECRETS ---------------------------------------------------------------
+# Audited 2026-09-02: NOTHING matching these has ever been committed — every
+# blob in history was content-scanned and returned zero credential hits. This
+# block is purely to keep that true, because the cost of one accident (an SSH
+# key or a tailnet auth key in a public-ish history) is a rotation plus a
+# history rewrite, and the cost of these nine lines is nothing.
+#
+# The CI runner's secrets live OUTSIDE the repo on purpose — in the self-hosted
+# runner's own .env, never in a tracked file. See docs/operations/ops-001-ci-setup.md.
+.env
+.env.*
+*.pem
+*.key
+*_rsa
+*_dsa
+*_ecdsa
+*_ed25519
+.netrc
+secrets.*
+*.p12
+*.pfx
+# runner working dirs, if anyone ever installs one inside the repo
+actions-runner/
+_work/
+
+# ---- LEARNED WEIGHTS -------------------------------------------------------
+# Regenerable, and enormous: a single flat-arch skill's policy.pt is ~115 MB
+# (three near-duplicate 49250-wide input layers). The training host bank alone is 3.4 GB
+# of files that are 0.82-0.995 cosine-identical to each other. Git is the
+# wrong tool; GitHub LFS gives 1 GB free, which one skill would nearly fill.
+host_repository/data/
+# ANCHORED WITH A LEADING SLASH — DO NOT REMOVE IT (fix 2026-09-02).
+# These were unanchored (`skill_bank*/`), and a gitignore pattern with no
+# leading slash matches at EVERY depth. So `skill_bank*/` also matched
+# `developmental_ai/skill_bank/` — the SOURCE PACKAGE — and all six of its
+# .py files were silently never committed.
+#
+# It hid for a long time because it is invisible everywhere except a clean
+# checkout: the dev Mac has the files on disk, and the training host is rsynced by path
+# rather than cloned, so both work. Only CI, which has nothing but `git
+# checkout`, failed — with `ModuleNotFoundError: No module named
+# 'developmental_ai.skill_bank'` on every suite that imports DevelopmentalAI.
+# That was misdiagnosed three times as a dependency/version problem.
+#
+# The leading slash pins each pattern to the repo ROOT, which is where the
+# real weight directories live (./skill_bank_data, ./skill_bank_doorkey).
+/skill_bank_data/
+/skill_bank_mc_curiosity/
+/skill_bank_doorkey/
+/skill_bank*/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+brain_backup*/
+
+# ---- run outputs ----
+logs/
+runlogs/
+pod_results/
+experiments/results/
+runs/
+outputs/
+*.log
+
+# ...but KEEP the small result summaries: these are the experimental record,
+# and they are the reason to have the code under version control at all.
+!experiments/results/**/*.json
+!experiments/results/**/*.md
+
+# ---- game data: ROMs, WADs, emulator save states (2026-10-11) ----
+# The repo is PUBLIC. Game files never enter it. Everything lives under
+# roms/<game>/, populated by scripts/fetch_roms.sh (free games) or by hand
+# (your own dumps of commercial games); only roms/README.md is tracked.
+# Guarded by tests/_no_secrets_smoke.py (contract C), so a later edit that
+# re-includes a ROM fails CI instead of publishing it.
+/roms/*
+!/roms/README.md
+# A dump saved OUTSIDE roms/ is still never stageable. Bracketed because git
+# matches ignore patterns case-sensitively on Linux (the host and CI), where
+# `POKEMON.GB` would otherwise slip past `*.gb`. (ultrareview 2026-10-11)
+*.[wW][aA][dD]
+*.[gG][bB]
+*.[gG][bB][cC]
+*.[gG][bB][aA]
+*.[nN][eE][sS]
+*.[sS][fF][cC]
+*.[sS][mM][cC]
+# The universal brain (docs/architecture/arc-004-universal-games.md). Anchored: a slash-less
+# pattern matches at every depth (see the skill_bank note above). Holds the
+# emulator save-state ring too (brain_universal/snapshots/), so no generic
+# save-state extension needs ignoring repo-wide.
+/brain_universal/
+
+# ---- media (heavy, regenerable) ----
+*.mp4
+*.gif
+*.avi
+# ...except the documentation figures, which are small and explanatory.
+!docs/*.png
+!assets/*.png
+
+# ---- local state that should never be shared ----
+*.env
+.env
+secrets.*
+*.pem
+id_rsa*
+skybot_ed25519*
+broadcaster_state.json
+registry.json
+
+# Local-only notes for Claude Code (real LAN addresses etc.). Never commit.
+CLAUDE.local.md
+
+# node2 brain mirror: real host addresses live only in this file (public repo).
+scripts/brain_mirror/brain_mirror.env
+
+# Claude Code per-machine settings (may hold local paths/permissions). Was only
+# ignored by a personal global gitignore, so CI saw it as publishable.
+.claude/settings.local.json
+
+# The LAN game depot on the host (tools/game_install.py) and the runner's
+# copy of it (scripts/depot_sync.sh): game files, .debs, wheels. Never public.
+/depot/
+docker/runner/depot/
+
+# ViZDoom writes this into the cwd every time a game starts (tests included).
+_vizdoom.ini

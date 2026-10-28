@@ -1,0 +1,22 @@
+# GAME CONFIG TEMPLATE (WP-16, ARC-005). Copy to configs/games/<name>.yaml and
+# fill in. Schema and rules: developmental_ai/game_template/config_schema.py;
+# validate with validate_game_config before launching.
+game:
+  name: my_game                     # == the file name without .yaml
+  env_name: MyGame-v0               # make_env dispatch name (free-form for plugins)
+  backend: plugin                   # plugin | player | vizdoom | minerl
+  adapter: "my_pkg.my_game:MyGameAdapter"   # subclass of GameAdapterTemplate
+  timing: synchronous               # synchronous | realtime (see contract.py)
+  streams: 2                        # the composer needs >= 2 streams in total
+  audio: {enabled: true, sample_rate: 22050}
+  # Slot k -> the inputs held for the decision. Slot 0 MUST be {} (no-op).
+  # Never offer an action that opens a state without one that closes it (4.5).
+  controller:
+    - {}
+    - {FORWARD: 1}
+  # Anything the game cannot start without; the launch preflight refuses if absent.
+  requires: []
+  # tools/game_install.py reads this (Game workflow -> install).
+  install: {apt: [], pip: [], roms: null, note: "what a human must know"}
+# Per-game overlay merged into the run config only when this game holds stream 0.
+primary: {}
